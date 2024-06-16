@@ -1,2 +1,4 @@
 forge-std/=lib/forge-std/src/
+solmate/=lib/solmate/src/
+aave-v3-core/=lib/aave-v3-core/
 @openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/
