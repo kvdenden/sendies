@@ -6,7 +6,7 @@ clean  :; forge clean
 
 anvil :; anvil --fork-url ${FORK_URL} --fork-block-number ${FORK_BLOCK_NUMBER} --chain-id 31337 --block-time 2
 
-deploy :; @forge script script/GhostVault.s.sol --rpc-url ${RPC_URL}  --private-key ${PRIVATE_KEY} --broadcast --verify --etherscan-api-key ${ETHERSCAN_API_KEY}  -vvvv
+deploy :; @forge script script/GhostVault.s.sol --rpc-url ${RPC_URL}  --private-key ${PRIVATE_KEY} --broadcast --verify  -vvvv
 
 # local development
 deploy-anvil :; @forge script script/GhostVault.s.sol --rpc-url http://localhost:8545  --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --broadcast 

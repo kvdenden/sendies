@@ -1,12 +1,14 @@
 "use client";
 
-import { usePrivy } from "@privy-io/react-auth";
+import { useLogin, usePrivy } from "@privy-io/react-auth";
 
 export default function LoginButton() {
-  const { ready, authenticated, login } = usePrivy();
+  const { ready, authenticated } = usePrivy();
+  const { login } = useLogin();
 
+  const enabled = ready && !authenticated;
   return (
-    <button disabled={!ready || (ready && authenticated)} onClick={login}>
+    <button disabled={!enabled} onClick={login}>
       Log in
     </button>
   );
