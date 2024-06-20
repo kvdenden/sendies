@@ -1,18 +1,17 @@
 "use client";
 
+import { formatUnits, parseEther, parseUnits } from "viem";
+import { useBalance } from "wagmi";
 import useSmartAccount from "@/hooks/useSmartAccount";
 import useSmartAccountClient from "@/hooks/useSmartAccountClient";
 import { usdc } from "@/web3/contracts";
-import { useCallback, useMemo } from "react";
-import { formatEther, formatUnits, parseEther, parseUnits } from "viem";
-import { useBalance } from "wagmi";
+import { useCallback } from "react";
 
 export default function SendButton() {
-  const { data: smartAccount } = useSmartAccount();
   const { data: smartAccountClient } = useSmartAccountClient();
 
-  const ethBalance = useBalance({ address: smartAccount?.address });
-  const usdcBalance = useBalance({ address: smartAccount?.address, token: usdc.address });
+  const ethBalance = useBalance({ address: smartAccountClient?.account.address });
+  const usdcBalance = useBalance({ address: smartAccountClient?.account.address, token: usdc.address });
 
   console.log("eth balance", ethBalance);
   console.log("usdc balance", usdcBalance);

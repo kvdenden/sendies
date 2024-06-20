@@ -1,5 +1,3 @@
-"use client";
-
 import { useMemo } from "react";
 import { getEmbeddedConnectedWallet, useWallets } from "@privy-io/react-auth";
 

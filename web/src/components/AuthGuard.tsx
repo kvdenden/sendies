@@ -1,7 +1,6 @@
 "use client";
 
 import { usePrivy } from "@privy-io/react-auth";
-import { useCreateKernelClientEOA } from "@zerodev/waas";
 import LoginButton from "./LoginButton";
 import CreateWalletButton from "./CreateWalletButton";
 import useEmbeddedWallet from "@/hooks/useEmbeddedWallet";

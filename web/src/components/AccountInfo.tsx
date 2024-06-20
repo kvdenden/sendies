@@ -2,7 +2,6 @@
 
 import { usePrivy } from "@privy-io/react-auth";
 import useSmartAccount from "@/hooks/useSmartAccount";
-import { useConnectors } from "wagmi";
 
 export default function AccountInfo() {
   const { ready, user } = usePrivy();
