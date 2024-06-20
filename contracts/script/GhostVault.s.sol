@@ -13,7 +13,6 @@ contract Deploy is Script {
   function run() public {
     uint256 privateKey = vm.envUint("PRIVATE_KEY");
 
-    // TODO: should we get these values from aave-address-book?
     address usdc = vm.envAddress("USDC");
     IPoolAddressesProvider addressProvider = IPoolAddressesProvider(vm.envAddress("POOL_ADDRESSES_PROVIDER"));
 
