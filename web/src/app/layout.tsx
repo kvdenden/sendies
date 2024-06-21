@@ -1,9 +1,10 @@
+import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import { cn } from "@/lib/utils";
 import Web3Provider from "@/web3/provider";
 
-const inter = Inter({ subsets: ["latin"] });
+const fontSans = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "Sendies",
@@ -18,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
         <Web3Provider>{children}</Web3Provider>
       </body>
     </html>

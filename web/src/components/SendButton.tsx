@@ -1,11 +1,13 @@
 "use client";
 
+import { useCallback } from "react";
 import { formatUnits, parseEther, parseUnits } from "viem";
 import { useBalance } from "wagmi";
-import useSmartAccount from "@/hooks/useSmartAccount";
+
+import { Button } from "@/components/ui/button";
+
 import useSmartAccountClient from "@/hooks/useSmartAccountClient";
 import { usdc } from "@/web3/contracts";
-import { useCallback } from "react";
 
 export default function SendButton() {
   const { data: smartAccountClient } = useSmartAccountClient();
@@ -43,7 +45,7 @@ export default function SendButton() {
     <>
       <p>ETH balance: {ethBalance.data && formatUnits(ethBalance.data.value, ethBalance.data.decimals)}</p>
       <p>USDC balance: {usdcBalance.data && formatUnits(usdcBalance.data.value, usdcBalance.data.decimals)}</p>
-      <button onClick={() => sendUSDC()}>Send</button>
+      <Button onClick={() => sendUSDC()}>Send</Button>
     </>
   );
 }
