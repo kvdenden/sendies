@@ -1,11 +1,14 @@
 "use client";
 
-import { usePrivy } from "@privy-io/react-auth";
+import { usePrivy, useToken } from "@privy-io/react-auth";
 import useSmartAccount from "@/hooks/useSmartAccount";
 
 export default function AccountInfo() {
   const { ready, user } = usePrivy();
+  const { getAccessToken } = useToken();
   const { data: smartAccount } = useSmartAccount();
+
+  getAccessToken().then((token) => console.log(token));
 
   if (!ready) return null;
 
