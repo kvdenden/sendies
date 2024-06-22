@@ -3,7 +3,7 @@ import { ghostVaultAbi } from "./abi";
 
 export const ghostVault = {
   abi: ghostVaultAbi,
-  address: process.env.NEXT_PUBLIC_CHAIN_ID,
+  address: process.env.NEXT_PUBLIC_GHOSTVAULT_ADDRESS,
 };
 
 export const usdc = {
