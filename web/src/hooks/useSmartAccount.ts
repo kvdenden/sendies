@@ -3,14 +3,14 @@ import { createSmartAccount } from "@/web3/zerodev";
 import useEmbeddedWallet from "./useEmbeddedWallet";
 
 export default function useSmartAccount() {
-  const embeddedWallet = useEmbeddedWallet();
+  const { ready, wallet } = useEmbeddedWallet();
 
   return useQuery({
-    queryKey: ["smartAccount", embeddedWallet?.address],
+    queryKey: ["smartAccount", wallet?.address],
     queryFn: async () => {
-      if (!embeddedWallet) return null;
-      return createSmartAccount(embeddedWallet);
+      if (!wallet) return null;
+      return createSmartAccount(wallet);
     },
-    enabled: !!embeddedWallet,
+    enabled: !!ready,
   });
 }

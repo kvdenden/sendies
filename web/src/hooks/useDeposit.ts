@@ -1,40 +1,36 @@
 import { useCallback } from "react";
 import { usdc, ghostVault } from "@/web3/contracts";
-import useSmartAccountClient from "./useSmartAccountClient";
-import { encodeFunctionData } from "viem";
+import { useCapabilities, useWriteContracts } from "wagmi/experimental";
+import { formatUnits } from "viem";
 
 // deposit USDC in vault
 export default function useDeposit() {
-  const { data: smartAccountClient } = useSmartAccountClient();
+  const { writeContracts } = useWriteContracts();
 
   const deposit = useCallback(
     async (amount: bigint, receiver: `0x${string}`) => {
-      if (!smartAccountClient) return null;
-
-      return smartAccountClient.sendTransactions({
-        transactions: [
+      console.log("deposit", formatUnits(amount, 6));
+      return writeContracts({
+        contracts: [
           {
-            to: usdc.address,
-            value: BigInt(0),
-            data: encodeFunctionData({
-              abi: usdc.abi,
-              functionName: "approve",
-              args: [ghostVault.address, amount],
-            }),
+            ...usdc,
+            functionName: "approve",
+            args: [ghostVault.address, amount],
           },
           {
-            to: ghostVault.address,
-            value: BigInt(0),
-            data: encodeFunctionData({
-              abi: ghostVault.abi,
-              functionName: "deposit",
-              args: [amount, receiver],
-            }),
+            ...ghostVault,
+            functionName: "deposit",
+            args: [amount, receiver],
           },
         ],
+        capabilities: {
+          paymasterService: {
+            url: process.env.NEXT_PUBLIC_PAYMASTER_RPC,
+          },
+        },
       });
     },
-    [smartAccountClient]
+    [writeContracts]
   );
 
   return deposit;

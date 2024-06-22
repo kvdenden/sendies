@@ -1,5 +1,5 @@
 import AuthGuard from "@/components/AuthGuard";
-import BalanceScreen from "@/components/BalanceScreen";
+import BalanceScreen from "@/components/screens/BalanceScreen";
 
 export default function Home() {
   return (

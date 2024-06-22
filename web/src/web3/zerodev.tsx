@@ -1,9 +1,24 @@
 import { ConnectedWallet } from "@privy-io/react-auth";
-import { createWalletClient, createPublicClient, http, custom, createClient } from "viem";
-import { ENTRYPOINT_ADDRESS_V07, bundlerActions, walletClientToSmartAccountSigner } from "permissionless";
+import { createWalletClient, createPublicClient, http, custom, type EIP1193Provider } from "viem";
+import {
+  ENTRYPOINT_ADDRESS_V07,
+  bundlerActions,
+  providerToSmartAccountSigner,
+  walletClientToSmartAccountSigner,
+  createSmartAccountClient as csac,
+} from "permissionless";
 import { signerToEcdsaValidator } from "@zerodev/ecdsa-validator";
-import { createKernelAccount, createKernelAccountClient, createZeroDevPaymasterClient } from "@zerodev/sdk";
+import {
+  KernelAccountClient,
+  createKernelAccount,
+  createKernelAccountClient,
+  createZeroDevPaymasterClient,
+} from "@zerodev/sdk";
+import { KernelEIP1193Provider } from "@zerodev/wallet";
 import chain from "@/web3/chain";
+import type { WalletClient, Transport, Chain, Account } from "viem";
+import { EntryPoint } from "permissionless/types";
+import { createPimlicoPaymasterClient } from "permissionless/clients/pimlico";
 
 const entryPoint = ENTRYPOINT_ADDRESS_V07;
 const kernelVersion = "0.3.1";
@@ -13,11 +28,17 @@ const publicClient = createPublicClient({
   transport: http(),
 });
 
-const paymasterClient = createZeroDevPaymasterClient({
-  chain,
-  entryPoint,
-  transport: http(process.env.NEXT_PUBLIC_PAYMASTER_RPC),
-});
+// const paymasterClient = createPimlicoPaymasterClient({
+//   chain,
+//   entryPoint,
+//   transport: http(process.env.NEXT_PUBLIC_PAYMASTER_RPC),
+// });
+
+// const paymasterClient = createZeroDevPaymasterClient({
+//   chain,
+//   entryPoint,
+//   transport: http(process.env.NEXT_PUBLIC_PAYMASTER_RPC),
+// });
 
 export async function createSmartAccount(embeddedWallet: ConnectedWallet) {
   const signer = await embeddedWallet.getEthereumProvider();
@@ -53,8 +74,38 @@ export async function createSmartAccountClient(embeddedWallet: ConnectedWallet) 
     chain,
     entryPoint,
     bundlerTransport: http(process.env.NEXT_PUBLIC_BUNDLER_RPC),
-    middleware: {
-      sponsorUserOperation: paymasterClient.sponsorUserOperation,
-    },
+    // middleware: {
+    //   sponsorUserOperation: paymasterClient.sponsorUserOperation,
+    // },
   }).extend(bundlerActions(entryPoint));
+}
+
+export async function getSmartAccountProvider({ signer }: { signer: EIP1193Provider }) {
+  const smartAccountSigner = await providerToSmartAccountSigner(signer);
+
+  const ecdsaValidator = await signerToEcdsaValidator(publicClient, {
+    signer: smartAccountSigner,
+    entryPoint,
+    kernelVersion,
+  });
+
+  const smartAccount = await createKernelAccount(publicClient, {
+    plugins: {
+      sudo: ecdsaValidator,
+    },
+    entryPoint,
+    kernelVersion,
+  });
+
+  const kernelClient = createKernelAccountClient({
+    account: smartAccount,
+    chain,
+    entryPoint,
+    bundlerTransport: http(process.env.NEXT_PUBLIC_BUNDLER_RPC),
+    // middleware: {
+    //   // sponsorUserOperation: paymasterClient.sponsorUserOperation,
+    // },
+  }).extend(bundlerActions(entryPoint));
+
+  return new KernelEIP1193Provider(kernelClient as any);
 }

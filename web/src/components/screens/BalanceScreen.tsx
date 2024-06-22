@@ -9,6 +9,8 @@ import { ghostVault, usdc } from "@/web3/contracts";
 import useSmartAccount from "@/hooks/useSmartAccount";
 import useDeposit from "@/hooks/useDeposit";
 import { useEffect } from "react";
+import useSmartWallet from "@/hooks/useSmartWallet";
+import LogoutButton from "../LogoutButton";
 
 function formatBalance(balance: { value: bigint; decimals: number }) {
   const number = Number(formatUnits(balance.value, balance.decimals));
@@ -17,17 +19,16 @@ function formatBalance(balance: { value: bigint; decimals: number }) {
 }
 
 export default function BalanceScreen() {
-  const { data: smartAccount } = useSmartAccount();
-  const { data: balance } = useBalance({ address: smartAccount?.address, token: ghostVault.address });
-  const { data: usdcBalance } = useBalance({ address: smartAccount?.address, token: usdc.address });
+  const { address } = useSmartWallet();
+  const { data: balance } = useBalance({ address, token: ghostVault.address });
+  const { data: usdcBalance } = useBalance({ address, token: usdc.address });
 
   const deposit = useDeposit();
 
   useEffect(() => {
-    if (!smartAccount) return;
-    if (!usdcBalance) return;
-    if (usdcBalance.value > 0) deposit(usdcBalance.value, smartAccount.address);
-  }, [deposit, smartAccount, usdcBalance]);
+    if (!usdcBalance || !address) return;
+    if (usdcBalance.value > 0) deposit(usdcBalance.value, address);
+  }, [deposit, usdcBalance, address]);
 
   if (!balance) return null;
 
@@ -37,6 +38,9 @@ export default function BalanceScreen() {
         <h1 className="text-5xl font-bold tracking-tight">{formatBalance(balance)}</h1>
       </div>
       <Button className="w-full">Send money</Button>
+      <div className="mt-6 text-center">
+        <LogoutButton />
+      </div>
     </div>
   );
 }
