@@ -1,14 +1,13 @@
-import AccountInfo from "@/components/AccountInfo";
 import AuthGuard from "@/components/AuthGuard";
-import SendButton from "@/components/SendButton";
+import BalanceScreen from "@/components/BalanceScreen";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Hello world</h1>
+    <main className="flex min-h-screen">
       <AuthGuard>
-        <SendButton />
-        <AccountInfo />
+        <div className="container mx-auto">
+          <BalanceScreen />
+        </div>
       </AuthGuard>
     </main>
   );
