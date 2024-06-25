@@ -5,6 +5,8 @@ namespace NodeJS {
     NEXT_PUBLIC_PRIVY_APP_ID: string;
     PRIVY_APP_SECRET: string;
 
+    NEXT_PUBLIC_ZERODEV_PROJECT_ID: string;
+
     NEXT_PUBLIC_BUNDLER_RPC: string;
     NEXT_PUBLIC_PAYMASTER_RPC: string;
 
