@@ -1,6 +1,7 @@
 "use client";
 
 import { useLogout, usePrivy } from "@privy-io/react-auth";
+import { Button } from "./ui/button";
 
 export default function LogoutButton() {
   const { ready, authenticated } = usePrivy();
@@ -9,8 +10,8 @@ export default function LogoutButton() {
 
   const enabled = ready && authenticated;
   return (
-    <button disabled={!enabled} onClick={logout}>
+    <Button variant="secondary" disabled={!enabled} onClick={logout}>
       Log out
-    </button>
+    </Button>
   );
 }
