@@ -3,14 +3,12 @@
 import { formatUnits } from "viem";
 import { useBalance } from "wagmi";
 
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
 import { ghostVault, usdc } from "@/web3/contracts";
-import useSmartAccount from "@/hooks/useSmartAccount";
 import useDeposit from "@/hooks/useDeposit";
-import { useEffect } from "react";
 import useSmartWallet from "@/hooks/useSmartWallet";
-import LogoutButton from "../LogoutButton";
 
 function formatBalance(balance: { value: bigint; decimals: number }) {
   const number = Number(formatUnits(balance.value, balance.decimals));
@@ -38,9 +36,6 @@ export default function BalanceScreen() {
         <h1 className="text-5xl font-bold tracking-tight">{formatBalance(balance)}</h1>
       </div>
       <Button className="w-full">Send money</Button>
-      <div className="mt-6 text-center">
-        <LogoutButton />
-      </div>
     </div>
   );
 }
