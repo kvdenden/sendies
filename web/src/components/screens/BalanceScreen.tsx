@@ -1,13 +1,11 @@
 "use client";
 
-import { formatUnits } from "viem";
+import { formatEther, formatUnits } from "viem";
 import { useBalance, useWatchContractEvent } from "wagmi";
 
-import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
-import { ghostVault, usdc } from "@/web3/contracts";
-import useDeposit from "@/hooks/useDeposit";
+import { ghostVault } from "@/web3/contracts";
 import useSmartWallet from "@/hooks/useSmartWallet";
 
 function formatBalance(balance: { value: bigint; decimals: number }) {
@@ -19,6 +17,9 @@ function formatBalance(balance: { value: bigint; decimals: number }) {
 export default function BalanceScreen() {
   const { address } = useSmartWallet();
   const { data: balance, refetch } = useBalance({ address, token: ghostVault.address });
+  const { data: ethBalance } = useBalance({ address });
+
+  console.log("eth balance", ethBalance && formatEther(ethBalance.value));
 
   useWatchContractEvent({
     ...ghostVault,
