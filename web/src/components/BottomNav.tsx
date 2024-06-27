@@ -32,10 +32,6 @@ export default function BottomNav() {
         <Wallet className="h-6 w-6" />
         <span className="text-xs">Balance</span>
       </NavLink>
-      <NavLink href="/send">
-        <Send className="h-6 w-6" />
-        <span className="text-xs">Send</span>
-      </NavLink>
       <NavLink href="/profile">
         <User className="h-6 w-6" />
         <span className="text-xs">Profile</span>

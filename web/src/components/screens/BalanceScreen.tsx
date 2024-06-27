@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 
 import { ghostVault } from "@/web3/contracts";
 import useSmartWallet from "@/hooks/useSmartWallet";
+import SendDrawer from "../SendDrawer";
 
 function formatBalance(balance: { value: bigint; decimals: number }) {
   const number = Number(formatUnits(balance.value, balance.decimals));
@@ -48,7 +49,7 @@ export default function BalanceScreen() {
       <div className="py-32">
         <h1 className="text-5xl font-bold tracking-tight">{formatBalance(balance)}</h1>
       </div>
-      <Button className="w-full">Send money</Button>
+      <SendDrawer />
     </div>
   );
 }
