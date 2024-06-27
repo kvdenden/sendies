@@ -13,12 +13,16 @@ import { getSmartAccountAddress } from "@/web3/zerodev";
 import { parseUnits } from "viem";
 import { Loader2 } from "lucide-react";
 
-const FormSchema = z.object({
+export const FormSchema = z.object({
   amount: z.coerce.number().positive(),
   email: z.string().email(),
 });
 
-export default function SendForm() {
+type SendFormProps = {
+  onSend?: Function;
+};
+
+export default function SendForm({ onSend = () => {} }: SendFormProps) {
   const { getAccessToken } = usePrivy();
   const [loading, setLoading] = useState(false);
 
@@ -37,8 +41,6 @@ export default function SendForm() {
       setLoading(true);
 
       const accessToken = await getAccessToken();
-
-      const { amount, email } = data;
       // 1. get wallet address for email
       const { user } = await fetch("/api/users", {
         method: "POST",
@@ -46,13 +48,17 @@ export default function SendForm() {
           Authorization: `Bearer ${accessToken}`,
           /* Add any other request headers you'd like */
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: data.email }),
       }).then((res) => res.json());
 
+      const amount = parseUnits(data.amount.toFixed(2), 6);
       const receiver = await getSmartAccountAddress(user.wallet.address);
 
       // 2. contract call
-      await send(parseUnits(amount.toFixed(2), 6), receiver);
+      await send(amount, receiver);
+
+      // 3. callback
+      onSend(data);
     } catch (error) {
       console.error(error);
     } finally {

@@ -18,9 +18,8 @@ function formatBalance(balance: { value: bigint; decimals: number }) {
 export default function BalanceScreen() {
   const { address } = useSmartWallet();
   const { data: balance, refetch } = useBalance({ address, token: ghostVault.address });
-  const { data: ethBalance } = useBalance({ address });
-
-  console.log("eth balance", ethBalance && formatEther(ethBalance.value));
+  // const { data: ethBalance } = useBalance({ address });
+  // console.log("eth balance", ethBalance && formatEther(ethBalance.value));
 
   useWatchContractEvent({
     ...ghostVault,
