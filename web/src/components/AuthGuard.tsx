@@ -5,10 +5,8 @@ import LoginButton from "./LoginButton";
 import CreateWalletButton from "./CreateWalletButton";
 import useEmbeddedWallet from "@/hooks/useEmbeddedWallet";
 import useSmartWallet from "@/hooks/useSmartWallet";
-import { LoadingSpinner } from "./ui/loading-spinner";
 import SplashScreen from "./screens/SplashScreen";
 import LoadingScreen from "./screens/LoadingScreen";
-import { useState } from "react";
 
 function Guard() {
   const privy = usePrivy();

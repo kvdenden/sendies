@@ -7,7 +7,7 @@ import {
   walletClientToSmartAccountSigner,
 } from "permissionless";
 import { getKernelAddressFromECDSA, signerToEcdsaValidator } from "@zerodev/ecdsa-validator";
-import { createKernelAccount, createKernelAccountClient } from "@zerodev/sdk";
+import { createKernelAccount, createKernelAccountClient, createZeroDevPaymasterClient } from "@zerodev/sdk";
 import { KernelEIP1193Provider } from "@zerodev/wallet";
 import chain from "@/web3/chain";
 
@@ -25,11 +25,11 @@ const publicClient = createPublicClient({
 //   transport: http(process.env.NEXT_PUBLIC_PAYMASTER_RPC),
 // });
 
-// const paymasterClient = createZeroDevPaymasterClient({
-//   chain,
-//   entryPoint,
-//   transport: http(process.env.NEXT_PUBLIC_PAYMASTER_RPC),
-// });
+const paymasterClient = createZeroDevPaymasterClient({
+  chain,
+  entryPoint,
+  transport: http(process.env.NEXT_PUBLIC_PAYMASTER_RPC),
+});
 
 export async function createSmartAccount(embeddedWallet: ConnectedWallet) {
   const signer = await embeddedWallet.getEthereumProvider();
@@ -103,9 +103,14 @@ export async function getSmartAccountProvider({ signer }: { signer: EIP1193Provi
     chain,
     entryPoint,
     bundlerTransport: http(process.env.NEXT_PUBLIC_BUNDLER_RPC),
-    // middleware: {
-    //   // sponsorUserOperation: paymasterClient.sponsorUserOperation,
-    // },
+    middleware: {
+      sponsorUserOperation: ({ userOperation }) => {
+        return paymasterClient.sponsorUserOperation({
+          userOperation,
+          entryPoint,
+        });
+      },
+    },
   }).extend(bundlerActions(entryPoint));
 
   return new KernelEIP1193Provider(kernelClient as any);

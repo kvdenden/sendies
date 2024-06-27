@@ -1,29 +1,20 @@
 import { useCallback } from "react";
-import { useWriteContracts } from "wagmi/experimental";
+import { useWriteContract } from "wagmi";
 import { ghostVault } from "@/web3/contracts";
 
 export default function useSend() {
-  const { writeContracts } = useWriteContracts();
+  const { writeContract } = useWriteContract();
 
   const send = useCallback(
     async (amount: bigint, receiver: `0x${string}`) => {
       console.log("send", amount, receiver);
-      return writeContracts({
-        contracts: [
-          {
-            ...ghostVault,
-            functionName: "transfer",
-            args: [receiver, amount],
-          },
-        ],
-        capabilities: {
-          paymasterService: {
-            url: process.env.NEXT_PUBLIC_PAYMASTER_RPC,
-          },
-        },
+      return writeContract({
+        ...ghostVault,
+        functionName: "transfer",
+        args: [receiver, amount],
       });
     },
-    [writeContracts]
+    [writeContract]
   );
 
   return send;
