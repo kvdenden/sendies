@@ -1,7 +1,7 @@
 "use client";
 
 import { formatUnits } from "viem";
-import { useBalance } from "wagmi";
+import { useBalance, useWatchContractEvent } from "wagmi";
 
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -18,15 +18,27 @@ function formatBalance(balance: { value: bigint; decimals: number }) {
 
 export default function BalanceScreen() {
   const { address } = useSmartWallet();
-  const { data: balance } = useBalance({ address, token: ghostVault.address });
-  const { data: usdcBalance } = useBalance({ address, token: usdc.address });
+  const { data: balance, refetch } = useBalance({ address, token: ghostVault.address });
 
-  const deposit = useDeposit();
+  useWatchContractEvent({
+    ...ghostVault,
+    eventName: "Transfer",
+    args: {
+      to: address,
+    },
+    onLogs: () => refetch(),
+    enabled: !!address,
+  });
 
-  useEffect(() => {
-    if (!usdcBalance || !address) return;
-    if (usdcBalance.value > 0) deposit(usdcBalance.value, address);
-  }, [deposit, usdcBalance, address]);
+  useWatchContractEvent({
+    ...ghostVault,
+    eventName: "Transfer",
+    args: {
+      from: address,
+    },
+    onLogs: () => refetch(),
+    enabled: !!address,
+  });
 
   if (!balance) return null;
 

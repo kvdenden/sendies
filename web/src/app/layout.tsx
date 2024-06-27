@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 import Web3Provider from "@/web3/provider";
 import AuthGuard from "@/components/AuthGuard";
 import BottomNav from "@/components/BottomNav";
+import AutoDeposit from "@/components/AutoDeposit";
+import { Toaster } from "@/components/ui/sonner";
 
 const fontSans = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -30,8 +32,10 @@ export default function RootLayout({
               </main>
               <BottomNav />
             </div>
+            <AutoDeposit />
           </AuthGuard>
         </Web3Provider>
+        <Toaster />
       </body>
     </html>
   );

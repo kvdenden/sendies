@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     if (!email) return NextResponse.json({ error: "Email is required" }, { status: 400 });
 
     const user = await privy.getUserByEmail(email);
-    if (user) return NextResponse.json({ error: "User already exists" }, { status: 409 });
+    if (user) return NextResponse.json({ user }, { status: 200 });
 
     const newUser = await privy.importUser({
       linkedAccounts: [
