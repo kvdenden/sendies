@@ -5,27 +5,18 @@ import {
   bundlerActions,
   providerToSmartAccountSigner,
   walletClientToSmartAccountSigner,
-  createSmartAccountClient as csac,
 } from "permissionless";
-import { signerToEcdsaValidator } from "@zerodev/ecdsa-validator";
-import {
-  KernelAccountClient,
-  createKernelAccount,
-  createKernelAccountClient,
-  createZeroDevPaymasterClient,
-} from "@zerodev/sdk";
+import { getKernelAddressFromECDSA, signerToEcdsaValidator } from "@zerodev/ecdsa-validator";
+import { createKernelAccount, createKernelAccountClient } from "@zerodev/sdk";
 import { KernelEIP1193Provider } from "@zerodev/wallet";
 import chain from "@/web3/chain";
-import type { WalletClient, Transport, Chain, Account } from "viem";
-import { EntryPoint } from "permissionless/types";
-import { createPimlicoPaymasterClient } from "permissionless/clients/pimlico";
 
 const entryPoint = ENTRYPOINT_ADDRESS_V07;
 const kernelVersion = "0.3.1";
 
 const publicClient = createPublicClient({
   chain,
-  transport: http(),
+  transport: http(process.env.NEXT_PUBLIC_RPC),
 });
 
 // const paymasterClient = createPimlicoPaymasterClient({
@@ -78,6 +69,16 @@ export async function createSmartAccountClient(embeddedWallet: ConnectedWallet) 
     //   sponsorUserOperation: paymasterClient.sponsorUserOperation,
     // },
   }).extend(bundlerActions(entryPoint));
+}
+
+export async function getSmartAccountAddress(eoaAddress: `0x${string}`, index: bigint = BigInt(0)) {
+  return getKernelAddressFromECDSA({
+    entryPointAddress: entryPoint,
+    kernelVersion,
+    eoaAddress,
+    index,
+    publicClient,
+  });
 }
 
 export async function getSmartAccountProvider({ signer }: { signer: EIP1193Provider }) {

@@ -1,25 +1,19 @@
 import { useCallback } from "react";
 import { useWriteContracts } from "wagmi/experimental";
-import { usdc, ghostVault } from "@/web3/contracts";
+import { ghostVault } from "@/web3/contracts";
 
-// deposit USDC in vault
-export default function useDeposit() {
+export default function useSend() {
   const { writeContracts } = useWriteContracts();
 
-  const deposit = useCallback(
+  const send = useCallback(
     async (amount: bigint, receiver: `0x${string}`) => {
-      console.log("deposit", amount, receiver);
+      console.log("send", amount, receiver);
       return writeContracts({
         contracts: [
           {
-            ...usdc,
-            functionName: "approve",
-            args: [ghostVault.address, amount],
-          },
-          {
             ...ghostVault,
-            functionName: "deposit",
-            args: [amount, receiver],
+            functionName: "transfer",
+            args: [receiver, amount],
           },
         ],
         capabilities: {
@@ -32,5 +26,5 @@ export default function useDeposit() {
     [writeContracts]
   );
 
-  return deposit;
+  return send;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import Link, { LinkProps } from "next/link";
+import Link from "next/link";
 import { Wallet, Send, User } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -32,7 +32,7 @@ export default function BottomNav() {
         <Wallet className="h-6 w-6" />
         <span className="text-xs">Balance</span>
       </NavLink>
-      <NavLink href="#">
+      <NavLink href="/send">
         <Send className="h-6 w-6" />
         <span className="text-xs">Send</span>
       </NavLink>
