@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useEmbeddedSmartAccountConnector } from "@privy-io/wagmi";
 import type { EIP1193Provider } from "viem";
 import { useAccount } from "wagmi";

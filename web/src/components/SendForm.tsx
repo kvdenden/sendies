@@ -55,10 +55,10 @@ export default function SendForm({ onSend = () => {} }: SendFormProps) {
       const receiver = await getSmartAccountAddress(user.wallet.address);
 
       // 2. contract call
-      await send(amount, receiver);
+      const txHash = await send(amount, receiver);
 
       // 3. callback
-      onSend(data);
+      onSend(data, txHash);
     } catch (error) {
       console.error(error);
     } finally {
