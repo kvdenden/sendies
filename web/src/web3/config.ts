@@ -20,5 +20,5 @@ export const wagmiConfig = createConfig({
   connectors: [wrapSmartWallet(injected(), process.env.NEXT_PUBLIC_ZERODEV_PROJECT_ID, "v3")],
   batch: { multicall: true },
   ssr: true,
-  pollingInterval: 30_000,
+  pollingInterval: 2_000,
 });
