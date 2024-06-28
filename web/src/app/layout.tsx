@@ -7,6 +7,7 @@ import AuthGuard from "@/components/AuthGuard";
 import BottomNav from "@/components/BottomNav";
 import AutoDeposit from "@/components/AutoDeposit";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "next-themes";
 
 const fontSans = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -24,18 +25,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn("min-h-[100dvh] bg-background font-sans antialiased", fontSans.variable)}>
-        <Web3Provider>
-          <AuthGuard>
-            <div className="flex flex-col min-h-[100dvh]">
-              <main className="flex-1 overflow-auto">
-                <div className="container mx-auto">{children}</div>
-              </main>
-              <BottomNav />
-            </div>
-            <AutoDeposit />
-          </AuthGuard>
-        </Web3Provider>
-        <Toaster />
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+          <Web3Provider>
+            <AuthGuard>
+              <div className="flex flex-col min-h-[100dvh]">
+                <main className="flex-1 overflow-auto">
+                  <div className="container mx-auto">{children}</div>
+                </main>
+                <BottomNav />
+              </div>
+              <AutoDeposit />
+            </AuthGuard>
+          </Web3Provider>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
