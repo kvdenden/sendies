@@ -7,66 +7,55 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
 import { useCallback, useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import useSend from "@/hooks/useSend";
-import { usePrivy } from "@privy-io/react-auth";
-import { getSmartAccountAddress } from "@/web3/zerodev";
-import { parseUnits } from "viem";
+import useWithdraw from "@/hooks/useWithdraw";
+import { getAddress, parseUnits } from "viem";
 import { Loader2 } from "lucide-react";
+import useSmartWallet from "@/hooks/useSmartWallet";
 
 export const FormSchema = z.object({
   amount: z.coerce.number().positive(),
-  email: z.string().email(),
+  receiver: z.string().regex(/^0x[a-fA-F0-9]{40}$/),
 });
 
-type SendFormProps = {
-  onSend?: Function;
+type WithdrawFormProps = {
+  onWithdraw?: Function;
 };
 
-export default function SendForm({ onSend = () => {} }: SendFormProps) {
-  const { getAccessToken } = usePrivy();
+export default function WithdrawForm({ onWithdraw = () => {} }: WithdrawFormProps) {
+  const { address } = useSmartWallet();
   const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       amount: 0,
-      email: "",
+      receiver: "",
     },
   });
 
-  const send = useSend();
+  const withdraw = useWithdraw();
 
   const handleSubmit = useCallback(
     async (data: z.infer<typeof FormSchema>) => {
+      if (!address) return;
       try {
         setLoading(true);
 
-        const accessToken = await getAccessToken();
-        // 1. get wallet address for email
-        const { user } = await fetch("/api/users", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            /* Add any other request headers you'd like */
-          },
-          body: JSON.stringify({ email: data.email }),
-        }).then((res) => res.json());
-
         const amount = parseUnits(data.amount.toFixed(2), 6);
-        const receiver = await getSmartAccountAddress(user.wallet.address);
+        const receiver = getAddress(data.receiver);
 
         // 2. contract call
-        const txHash = await send(amount, receiver);
+        const txHash = await withdraw(amount, receiver, address);
 
         // 3. callback
-        onSend(data, txHash);
+        onWithdraw(data, txHash);
       } catch (error) {
         console.error(error);
       } finally {
         setLoading(false);
       }
     },
-    [getAccessToken, send, onSend]
+    [address, withdraw, onWithdraw]
   );
 
   return (
@@ -86,19 +75,19 @@ export default function SendForm({ onSend = () => {} }: SendFormProps) {
         />
         <FormField
           control={form.control}
-          name="email"
+          name="receiver"
           render={({ field }) => (
             <FormItem>
               <FormLabel>To</FormLabel>
               <FormControl>
-                <Input type="email" {...field} placeholder="wkm@sendies.app" />
+                <Input type="text" {...field} placeholder="0xE71D8DED9DeE1187E25a2D0Fca8c8b050559D7D3" />
               </FormControl>
             </FormItem>
           )}
         />
 
         <Button type="submit" className="w-full" disabled={loading}>
-          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Send"}
+          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Withdraw"}
         </Button>
       </form>
     </Form>

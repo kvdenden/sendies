@@ -30,7 +30,7 @@ export default function DepositDrawer() {
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
         <Button variant="secondary" className="w-full">
-          Deposit monies
+          Deposit
         </Button>
       </DrawerTrigger>
       <DrawerContent>
