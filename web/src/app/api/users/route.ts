@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import privy from "@/app/api/privy";
+import privy from "../privy";
+import { send as sendWelcomeEmail } from "@/email/welcome";
 
 async function getUserId(authHeader: string) {
   try {
@@ -34,6 +35,12 @@ export async function POST(req: NextRequest) {
       ],
       createEmbeddedWallet: true,
     });
+
+    // send welcome email
+    await privy
+      .getUser(userId)
+      .then((referrer) => sendWelcomeEmail(email, referrer.email?.address))
+      .catch(console.error);
 
     return NextResponse.json({ user: newUser }, { status: 201 });
   } catch (error) {
