@@ -24,8 +24,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn("min-h-[100dvh] bg-background font-sans antialiased", fontSans.variable)}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+      <body
+        className={cn(
+          "min-h-[100dvh] bg-gradient-to-r from-[#e6e8ec] to-[#FFFFFF] font-sans antialiased",
+          fontSans.variable
+        )}
+      >
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <Web3Provider>
             <AuthGuard>
               <div className="flex flex-col min-h-[100dvh]">
