@@ -29,7 +29,7 @@ export default function DepositDrawer() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="secondary" className="w-full">
+        <Button variant="default" className="w-full">
           Deposit
         </Button>
       </DrawerTrigger>
@@ -43,7 +43,7 @@ export default function DepositDrawer() {
             <p>
               Send USDC to <span className="font-mono text-xs">{address}</span> to deposit monies.
             </p>
-            <Button variant="secondary" className="w-full" onClick={() => copyToClipBoard(address ?? "")}>
+            <Button variant="default" className="w-full" onClick={() => copyToClipBoard(address ?? "")}>
               Copy Address
             </Button>
           </div>

@@ -25,7 +25,7 @@ export default function WithdrawDrawer() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="secondary" className="w-full">
+        <Button variant="outline" className="border-primary text-primary w-full">
           Withdraw
         </Button>
       </DrawerTrigger>
