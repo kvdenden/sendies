@@ -4,17 +4,17 @@ import { ghostVault } from "@/web3/contracts";
 
 // withdraw USDC from vault
 export default function useWithdraw() {
-  const { writeContract } = useWriteContract();
+  const { writeContractAsync } = useWriteContract();
 
   const withdraw = useCallback(
     async (amount: bigint, receiver: `0x${string}`, owner: `0x${string}`) => {
-      return writeContract({
+      return writeContractAsync({
         ...ghostVault,
         functionName: "withdraw",
         args: [amount, receiver, owner],
       });
     },
-    [writeContract]
+    [writeContractAsync]
   );
 
   return withdraw;

@@ -10,6 +10,7 @@ import useSmartWallet from "@/hooks/useSmartWallet";
 import SendDrawer from "../SendDrawer";
 import useGhostBalance from "@/hooks/useGhostBalance";
 import DepositDrawer from "../DepositDrawer";
+import WithdrawDrawer from "../WithdrawDrawer";
 
 function formatBalance(balance: { value: bigint; decimals: number }) {
   const number = Number(formatUnits(balance.value, balance.decimals));
@@ -52,8 +53,13 @@ export default function BalanceScreen() {
       <div className="py-32">
         <h1 className="text-5xl font-bold tracking-tight">{formatBalance(balance)}</h1>
       </div>
-      <DepositDrawer />
-      <SendDrawer />
+      <div className="flex-1 grid grid-cols-2 gap-2">
+        <div className="col-span-2">
+          <SendDrawer />
+        </div>
+        <DepositDrawer />
+        <WithdrawDrawer />
+      </div>
     </div>
   );
 }
