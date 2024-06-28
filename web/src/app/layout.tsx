@@ -23,10 +23,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
+      <body className={cn("min-h-[100dvh] bg-background font-sans antialiased", fontSans.variable)}>
         <Web3Provider>
           <AuthGuard>
-            <div className="flex flex-col h-screen">
+            <div className="flex flex-col min-h-[100dvh]">
               <main className="flex-1 overflow-auto">
                 <div className="container mx-auto">{children}</div>
               </main>

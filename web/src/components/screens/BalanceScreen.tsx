@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { ghostVault } from "@/web3/contracts";
 import useSmartWallet from "@/hooks/useSmartWallet";
 import SendDrawer from "../SendDrawer";
+import useGhostBalance from "@/hooks/useGhostBalance";
+import DepositDrawer from "../DepositDrawer";
 
 function formatBalance(balance: { value: bigint; decimals: number }) {
   const number = Number(formatUnits(balance.value, balance.decimals));
@@ -17,10 +19,11 @@ function formatBalance(balance: { value: bigint; decimals: number }) {
 
 export default function BalanceScreen() {
   const { address } = useSmartWallet();
-  const { data: balance, refetch } = useBalance({ address, token: ghostVault.address });
-  const { data: ethBalance } = useBalance({ address });
 
-  console.log("eth balance", ethBalance && formatEther(ethBalance.value));
+  const { balance, refresh } = useGhostBalance(address);
+  // const { data: balance, refetch } = useBalance({ address, token: ghostVault.address });
+  // const { data: ethBalance } = useBalance({ address });
+  // console.log("eth balance", ethBalance && formatEther(ethBalance.value));
 
   useWatchContractEvent({
     ...ghostVault,
@@ -28,7 +31,7 @@ export default function BalanceScreen() {
     args: {
       to: address,
     },
-    onLogs: () => refetch(),
+    onLogs: () => refresh(),
     enabled: !!address,
   });
 
@@ -38,7 +41,7 @@ export default function BalanceScreen() {
     args: {
       from: address,
     },
-    onLogs: () => refetch(),
+    onLogs: () => refresh(),
     enabled: !!address,
   });
 
@@ -49,6 +52,7 @@ export default function BalanceScreen() {
       <div className="py-32">
         <h1 className="text-5xl font-bold tracking-tight">{formatBalance(balance)}</h1>
       </div>
+      <DepositDrawer />
       <SendDrawer />
     </div>
   );
