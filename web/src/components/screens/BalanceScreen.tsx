@@ -50,7 +50,7 @@ export default function BalanceScreen() {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="py-32">
+      <div className="py-16">
         <h1 className="text-5xl font-bold tracking-tight">{formatBalance(balance)}</h1>
       </div>
       <div className="flex-1 grid grid-cols-2 gap-2">

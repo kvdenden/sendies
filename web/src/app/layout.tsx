@@ -26,11 +26,13 @@ export default function RootLayout({
       <body className={cn("min-h-[100dvh] bg-background font-sans antialiased", fontSans.variable)}>
         <Web3Provider>
           <AuthGuard>
-            <div className="flex flex-col min-h-[100dvh]">
+            <div className="flex flex-col h-[100dvh]">
               <main className="flex-1 overflow-auto">
-                <div className="container mx-auto">{children}</div>
+                <div className="container mx-auto pb-4">{children}</div>
               </main>
-              <BottomNav />
+              <div className="sticky bottom-0 mt-auto">
+                <BottomNav />
+              </div>
             </div>
             <AutoDeposit />
           </AuthGuard>

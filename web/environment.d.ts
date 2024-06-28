@@ -7,6 +7,9 @@ namespace NodeJS {
 
     NEXT_PUBLIC_ZERODEV_PROJECT_ID: string;
 
+    NEXT_PUBLIC_ALCHEMY_API_KEY: string;
+
+    NEXT_PUBLIC_RPC: string;
     NEXT_PUBLIC_BUNDLER_RPC: string;
     NEXT_PUBLIC_PAYMASTER_RPC: string;
 
