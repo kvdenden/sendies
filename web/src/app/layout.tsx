@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { ThemeProvider } from "next-themes";
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import Web3Provider from "@/web3/provider";
@@ -24,20 +25,22 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn("min-h-[100dvh] bg-background font-sans antialiased", fontSans.variable)}>
-        <Web3Provider>
-          <AuthGuard>
-            <div className="flex flex-col h-[100dvh]">
-              <main className="flex-1 overflow-auto">
-                <div className="container mx-auto pb-4">{children}</div>
-              </main>
-              <div className="sticky bottom-0 mt-auto">
-                <BottomNav />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <Web3Provider>
+            <AuthGuard>
+              <div className="flex flex-col h-[100dvh]">
+                <main className="flex-1 overflow-auto">
+                  <div className="container mx-auto pb-4">{children}</div>
+                </main>
+                <div className="sticky bottom-0 mt-auto">
+                  <BottomNav />
+                </div>
               </div>
-            </div>
-            <AutoDeposit />
-          </AuthGuard>
-        </Web3Provider>
-        <Toaster />
+              <AutoDeposit />
+            </AuthGuard>
+          </Web3Provider>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
