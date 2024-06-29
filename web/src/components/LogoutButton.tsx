@@ -10,7 +10,7 @@ export default function LogoutButton() {
 
   const enabled = ready && authenticated;
   return (
-    <Button variant="secondary" disabled={!enabled} onClick={logout}>
+    <Button variant="secondary" className="w-full" disabled={!enabled} onClick={logout}>
       Log out
     </Button>
   );

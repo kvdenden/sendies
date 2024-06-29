@@ -30,7 +30,7 @@ export default function RootLayout({
             <div className="flex flex-col h-full">
               <AuthGuard>
                 <main className="grow overflow-auto">
-                  <div className="container mx-auto pb-4">{children}</div>
+                  <div className="container h-full mx-auto pb-4">{children}</div>
                 </main>
                 <div className="sticky bottom-0 mt-auto">
                   <BottomNav />
