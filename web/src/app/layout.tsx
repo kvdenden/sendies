@@ -24,20 +24,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn("min-h-[100dvh] bg-background font-sans antialiased", fontSans.variable)}>
+      <body className={cn("h-[100dvh] bg-background font-sans antialiased", fontSans.variable)}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <Web3Provider>
-            <AuthGuard>
-              <div className="flex flex-col h-[100dvh]">
-                <main className="flex-1 overflow-auto">
+            <div className="flex flex-col h-full">
+              <AuthGuard>
+                <main className="grow overflow-auto">
                   <div className="container mx-auto pb-4">{children}</div>
                 </main>
                 <div className="sticky bottom-0 mt-auto">
                   <BottomNav />
                 </div>
-              </div>
-              <AutoDeposit />
-            </AuthGuard>
+                <AutoDeposit />
+              </AuthGuard>
+            </div>
           </Web3Provider>
           <Toaster />
         </ThemeProvider>
