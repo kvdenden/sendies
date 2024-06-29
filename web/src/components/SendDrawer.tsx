@@ -25,12 +25,12 @@ export default function SendDrawer() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button className="w-full">Send monies</Button>
+        <Button className="w-full">Send Money</Button>
       </DrawerTrigger>
       <DrawerContent>
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader>
-            <DrawerTitle>Send monies</DrawerTitle>
+            <DrawerTitle>Send Money</DrawerTitle>
             <DrawerDescription>Send monies to a friend or foe</DrawerDescription>
           </DrawerHeader>
           <div className="p-4 pb-0">

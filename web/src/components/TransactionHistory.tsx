@@ -27,14 +27,14 @@ function transactionLabel(tx: Transaction, out: boolean) {
   }
 }
 
-function TransactionIcon({ tx, out }: { tx: Transaction; out: boolean }) {
+function TransactionIcon({ tx }: { tx: Transaction; out: boolean }) {
   switch (tx.type) {
     case "deposit":
       return <ArrowBigDownDash />;
     case "withdraw":
       return <ArrowBigUpDash />;
     case "transfer":
-      return out ? <ArrowBigRightDash /> : <ArrowBigLeftDash />;
+      return <ArrowBigRightDash />;
   }
 }
 

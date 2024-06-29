@@ -1,5 +1,4 @@
 import { useCallback, useState } from "react";
-import SendForm from "./SendForm";
 import { Button } from "./ui/button";
 import {
   Drawer,
@@ -12,6 +11,7 @@ import {
   DrawerTrigger,
 } from "./ui/drawer";
 import useSmartWallet from "@/hooks/useSmartWallet";
+import chain from "@/web3/chain";
 
 export default function DepositDrawer() {
   const { address } = useSmartWallet();
@@ -36,13 +36,28 @@ export default function DepositDrawer() {
       <DrawerContent>
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader>
-            <DrawerTitle>Deposit monies</DrawerTitle>
-            <DrawerDescription>Deposit monies in your account</DrawerDescription>
+            <DrawerTitle>Deposit</DrawerTitle>
+            <DrawerDescription>Add money to your Sendies account</DrawerDescription>
           </DrawerHeader>
           <div className="p-4 pb-0">
-            <p>
-              Send USDC to <span className="font-mono text-xs">{address}</span> to deposit monies.
-            </p>
+            <div className="mb-2">
+              <span className="font-semibold">Send USDC to this address:</span>
+              <p className="font-mono bg-gray-100 p-2 rounded mt-2 break-all">{address}</p>
+            </div>
+            <div className="text-sm mb-2">
+              <span className="font-semibold">Currency:</span>{" "}
+              <>
+                Send <span className="font-semibold">USDC</span> only.
+              </>
+            </div>
+            <div className="text-sm  mb-2">
+              <span className="font-semibold">Network:</span>{" "}
+              <>
+                Make sure you&apos;re using the <span className="font-semibold">{chain.name}</span> network for this
+                transaction.
+              </>
+            </div>
+
             <Button variant="secondary" className="w-full" onClick={() => copyToClipBoard(address ?? "")}>
               Copy Address
             </Button>

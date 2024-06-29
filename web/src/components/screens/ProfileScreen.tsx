@@ -2,13 +2,15 @@
 
 import useSmartWallet from "@/hooks/useSmartWallet";
 import LogoutButton from "../LogoutButton";
-import { Card, CardContent } from "../ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Card } from "../ui/card";
+import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Separator } from "../ui/separator";
 import { usePrivy } from "@privy-io/react-auth";
 import useEmbeddedWallet from "@/hooks/useEmbeddedWallet";
 import { UserRound } from "lucide-react";
 import { shortAddress } from "@/web3/utils";
+import WithdrawDrawer from "../WithdrawDrawer";
+import DepositDrawer from "../DepositDrawer";
 
 export default function ProfileScreen() {
   const { user } = usePrivy();
@@ -23,8 +25,8 @@ export default function ProfileScreen() {
   return (
     <div className="flex flex-col h-full items-center">
       <div className="flex flex-col py-16">
-        <Card className="w-full">
-          <div className="flex items-center gap-4 px-4 py-6">
+        <Card>
+          <div className="flex items-center gap-4 p-6">
             <Avatar className="h-12 w-12">
               {/* <AvatarImage src="/placeholder-user.jpg" /> */}
               <AvatarFallback>
@@ -51,6 +53,14 @@ export default function ProfileScreen() {
             </div>
           </div>
         </Card>
+      </div>
+      <div className="flex flex-col w-full mb-4">
+        <p className="mb-2 text-sm text-muted-foreground">Add money to your Sendies account</p>
+        <DepositDrawer />
+      </div>
+      <div className="flex my-4 flex-col w-full mb-4">
+        <p className="mb-2 text-sm text-muted-foreground">Withdraw money from your Sendies account</p>
+        <WithdrawDrawer />
       </div>
       <div className="text-center mt-auto w-full">
         <LogoutButton />
