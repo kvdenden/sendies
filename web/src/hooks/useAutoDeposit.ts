@@ -4,6 +4,8 @@ import { useBalance, useReadContract, useWatchContractEvent } from "wagmi";
 import { ghostVault, usdc } from "@/web3/contracts";
 import useDeposit from "./useDeposit";
 import useApprove from "./useApprove";
+import { toast } from "sonner";
+import useGhostBalance from "./useGhostBalance";
 
 export default function useAutoDeposit(address?: `0x${string}`) {
   const { data: balance, refetch: refetchBalance } = useBalance({ address, token: usdc.address });
@@ -33,15 +35,28 @@ export default function useAutoDeposit(address?: `0x${string}`) {
   useEffect(() => {
     if (!address) return;
     if (allowance === undefined) return;
-
-    if (allowance !== maxUint256) approve(ghostVault.address).then(() => refetchAllowance());
   }, [approve, allowance, address]);
 
   useEffect(() => {
-    if (!address) return;
-    if (!balance) return;
-    if (!allowance) return;
+    async function approveAndDeposit() {
+      if (!address) return;
+      if (!balance) return;
+      if (!allowance) return;
 
-    if (balance.value > 0 && allowance >= balance.value) deposit(balance.value, address).then(() => refetchBalance());
+      try {
+        if (allowance !== maxUint256) {
+          await approve(ghostVault.address);
+          refetchAllowance();
+        }
+        if (balance.value > 0) {
+          await deposit(balance.value, address);
+          refetchBalance();
+        }
+      } catch (error) {
+        console.error("Auto deposit failed", error);
+      }
+    }
+
+    approveAndDeposit();
   }, [deposit, allowance, balance, address]);
 }
