@@ -24,6 +24,7 @@ export default function useAutoDeposit(address?: `0x${string}`) {
       refetchBalance();
     },
     enabled: !!address,
+    pollingInterval: 10_000,
   });
 
   const approve = useApprove();

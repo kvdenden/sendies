@@ -12,6 +12,7 @@ import { usePrivy } from "@privy-io/react-auth";
 import { getSmartAccountAddress } from "@/web3/zerodev";
 import { parseUnits } from "viem";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 export const FormSchema = z.object({
   amount: z.coerce.number().positive(),
@@ -57,11 +58,13 @@ export default function SendForm({ onSend = () => {} }: SendFormProps) {
 
         // 2. contract call
         const txHash = await send(amount, receiver);
+        toast.success("Money sent!");
 
         // 3. callback
         onSend(data, txHash);
       } catch (error) {
         console.error(error);
+        toast.error("Uh oh! Something went wrong.");
       } finally {
         setLoading(false);
       }

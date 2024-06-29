@@ -34,6 +34,7 @@ export default function BalanceScreen() {
     },
     onLogs: () => refresh(),
     enabled: !!address,
+    pollingInterval: 10_000,
   });
 
   useWatchContractEvent({
@@ -44,6 +45,7 @@ export default function BalanceScreen() {
     },
     onLogs: () => refresh(),
     enabled: !!address,
+    pollingInterval: 10_000,
   });
 
   if (!balance) return null;

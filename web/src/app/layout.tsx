@@ -39,7 +39,7 @@ export default function RootLayout({
               </div>
             </AuthGuard>
           </Web3Provider>
-          <Toaster />
+          <Toaster position="top-center" />
         </ThemeProvider>
       </body>
     </html>
