@@ -8,15 +8,12 @@ import { cn } from "@/lib/utils";
 import useSearchUser from "@/hooks/useSearchUser";
 import { useEffect, useMemo } from "react";
 import { ArrowBigDownDash, ArrowBigLeftDash, ArrowBigRightDash, ArrowBigUpDash } from "lucide-react";
+import { shortAddress } from "@/web3/utils";
 
 function formatAmount(amount: bigint, decimals: number = 6) {
   const number = Number(formatUnits(amount, decimals));
 
   return number.toLocaleString("en-US", { style: "currency", currency: "USD" });
-}
-
-function formatAddress(address: `0x${string}`) {
-  return `${address.slice(0, 6)}...${address.slice(-4)}`;
 }
 
 function transactionLabel(tx: Transaction, out: boolean) {
@@ -30,14 +27,14 @@ function transactionLabel(tx: Transaction, out: boolean) {
   }
 }
 
-function TransactionIcon({ tx, out }: { tx: Transaction; out: boolean }) {
+function TransactionIcon({ tx }: { tx: Transaction; out: boolean }) {
   switch (tx.type) {
     case "deposit":
       return <ArrowBigDownDash />;
     case "withdraw":
       return <ArrowBigUpDash />;
     case "transfer":
-      return out ? <ArrowBigRightDash /> : <ArrowBigLeftDash />;
+      return <ArrowBigRightDash />;
   }
 }
 
@@ -60,7 +57,7 @@ function TransactionCard({ tx }: { tx: Transaction }) {
 
             <div>
               <p className="text-sm font-medium">{transactionLabel(tx, isOutgoing)}</p>
-              <p className="text-xs text-muted-foreground">{otherAddress && formatAddress(otherAddress)}</p>
+              <p className="text-xs text-muted-foreground">{otherAddress && shortAddress(otherAddress)}</p>
             </div>
           </div>
           <div className="text-right">

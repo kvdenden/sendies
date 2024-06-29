@@ -27,17 +27,17 @@ export default function RootLayout({
       <body className={cn("h-[100dvh] bg-background font-sans antialiased", fontSans.variable)}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <Web3Provider>
-            <div className="flex flex-col h-full">
-              <AuthGuard>
-                <main className="grow overflow-auto">
-                  <div className="container mx-auto pb-4">{children}</div>
+            <AuthGuard>
+              <div className="flex flex-col h-full">
+                <main className="h-[100dvh] overflow-auto">
+                  <div className="container h-full mx-auto pb-4">{children}</div>
                 </main>
                 <div className="sticky bottom-0 mt-auto">
                   <BottomNav />
                 </div>
                 <AutoDeposit />
-              </AuthGuard>
-            </div>
+              </div>
+            </AuthGuard>
           </Web3Provider>
           <Toaster />
         </ThemeProvider>

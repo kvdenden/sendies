@@ -32,8 +32,8 @@ export default function WithdrawDrawer() {
       <DrawerContent>
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader>
-            <DrawerTitle>Withdraw monies</DrawerTitle>
-            <DrawerDescription>Withdraw monies from your account</DrawerDescription>
+            <DrawerTitle>Withdraw</DrawerTitle>
+            <DrawerDescription>Withdraw money from your Sendies account</DrawerDescription>
           </DrawerHeader>
           <div className="p-4 pb-0">
             <WithdrawForm onWithdraw={handleWithdraw} />

@@ -49,16 +49,16 @@ export default function BalanceScreen() {
   if (!balance) return null;
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center w-full">
       <div className="py-16">
         <h1 className="text-5xl font-bold tracking-tight">{formatBalance(balance)}</h1>
       </div>
-      <div className="flex-1 grid grid-cols-2 gap-2">
+      <div className="flex-1 grid grid-cols-2 gap-4 w-full max-w-[300px] ">
+        <DepositDrawer />
+        <WithdrawDrawer />
         <div className="col-span-2">
           <SendDrawer />
         </div>
-        <DepositDrawer />
-        <WithdrawDrawer />
       </div>
     </div>
   );
