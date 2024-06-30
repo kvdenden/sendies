@@ -106,6 +106,7 @@ export default function TransactionHistory() {
     onLogs: () => {
       refetch();
     },
+    strict: true,
     enabled: !!address,
     pollingInterval: 10_000,
   });
@@ -117,6 +118,7 @@ export default function TransactionHistory() {
       from: address,
     },
     onLogs: () => refetch(),
+    strict: true,
     enabled: !!address,
     pollingInterval: 10_000,
   });

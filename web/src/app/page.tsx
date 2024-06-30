@@ -1,6 +1,5 @@
 import BalanceScreen from "@/components/screens/BalanceScreen";
 import TransactionHistory from "@/components/TransactionHistory";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function Home() {
   return (

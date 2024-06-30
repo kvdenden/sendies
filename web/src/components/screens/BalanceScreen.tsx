@@ -23,9 +23,6 @@ export default function BalanceScreen() {
   const { address } = useSmartWallet();
 
   const { balance, refresh } = useGhostBalance(address);
-  // const { data: balance, refetch } = useBalance({ address, token: ghostVault.address });
-  // const { data: ethBalance } = useBalance({ address });
-  // console.log("eth balance", ethBalance && formatEther(ethBalance.value));
 
   useWatchContractEvent({
     ...ghostVault,
@@ -33,10 +30,17 @@ export default function BalanceScreen() {
     args: {
       to: address,
     },
-    onLogs: () => {
-      toast.success("You received some monies! 🎉");
+    onLogs: (logs) => {
+      logs.forEach((log) => {
+        console.log("Transfer in logs", log);
+        if (log.args.amount > 0) {
+          const amount = formatBalance({ value: log.args.amount, decimals: 6 });
+          toast.info(`Received ${amount}! 🎉`);
+        }
+      });
       refresh();
     },
+    strict: true,
     enabled: !!address,
     pollingInterval: 10_000,
   });
@@ -47,7 +51,17 @@ export default function BalanceScreen() {
     args: {
       from: address,
     },
-    onLogs: () => refresh(),
+    onLogs: (logs) => {
+      // logs.forEach((log) => {
+      //   console.log("Transfer in logs", log);
+      //   if (log.args.amount > 0) {
+      //     const amount = formatBalance({ value: log.args.amount, decimals: 6 });
+      //     toast.info(`Sent ${amount}!`);
+      //   }
+      // });
+      refresh();
+    },
+    strict: true,
     enabled: !!address,
     pollingInterval: 10_000,
   });

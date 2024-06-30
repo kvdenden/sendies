@@ -61,8 +61,6 @@ async function getAssetTransfers(address: `0x${string}`, limit: number = 20) {
     .slice(0, limit)
     .map(parseTransfer);
 
-  console.log("transfers", transfers);
-
   return transfers;
 }
 

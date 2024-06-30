@@ -25,8 +25,7 @@ export default function useAutoDeposit(address?: `0x${string}`) {
     args: {
       to: address,
     },
-    onLogs: (logs) => {
-      console.log("USDC transfer logs:", logs);
+    onLogs: () => {
       refetchBalance();
     },
     enabled: !!address,
