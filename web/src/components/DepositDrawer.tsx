@@ -42,7 +42,7 @@ export default function DepositDrawer() {
           <div className="p-4 pb-0">
             <div className="mb-2">
               <span className="font-semibold">Send USDC to this address:</span>
-              <p className="font-mono bg-gray-100 p-2 rounded mt-2 break-all">{address}</p>
+              <p className="font-mono bg-accent p-2 rounded mt-2 break-all">{address}</p>
             </div>
             <div className="text-sm mb-2">
               <span className="font-semibold">Currency:</span>{" "}

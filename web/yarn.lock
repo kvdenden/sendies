@@ -2354,36 +2354,36 @@
     "@walletconnect/window-getters" "^1.0.1"
     tslib "1.14.1"
 
-"@zerodev/ecdsa-validator@5.2.3":
-  version "5.2.3"
-  resolved "https://registry.yarnpkg.com/@zerodev/ecdsa-validator/-/ecdsa-validator-5.2.3.tgz#19f55620c2254df53677662ce0715172675f28ed"
-  integrity sha512-zeJjYhOW5EWK6XnctPt3iVnrqmrHfb81p/fJKaY4yQnL2ZYPrH37ZgtY1z5COETPCDTm65+jPfc1Zn/dziyAXQ==
+"@zerodev/ecdsa-validator@5.3.1":
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/@zerodev/ecdsa-validator/-/ecdsa-validator-5.3.1.tgz#bf796071db3bee9f516ce70a644909e32712297d"
+  integrity sha512-4xg/uBgjQLyO5GoE9TkQqO7HRwSPVbchd6UXit+R3excN1fC27k7UcjLmm5rTrM2JxbgncIodGcNQMxYKNejsA==
 
 "@zerodev/ecdsa-validator@^5.3.0":
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/@zerodev/ecdsa-validator/-/ecdsa-validator-5.3.0.tgz#4b837411026cb77c4e350ff3aab391f7d9402025"
   integrity sha512-pGP6ubhbSGTCoebHdhmQajfhDJM6N/qlIdkESa97wvUOBmn8gcE/U+GvNZBzOxCtiO/MY6bKg9HLC2J4hoRJPA==
 
-"@zerodev/passkey-validator@5.2.8":
-  version "5.2.8"
-  resolved "https://registry.yarnpkg.com/@zerodev/passkey-validator/-/passkey-validator-5.2.8.tgz#efe2a59be1bd20f1886f3fd4b98758006732da1c"
-  integrity sha512-617SzAConOrXUUoaL+VoFPb9NfEiW96b9MgU4xWScZ/iRvFM1zXUeFn/svaCQp72anq4f9ZU7iye0fcjBeuX0g==
+"@zerodev/passkey-validator@5.3.3":
+  version "5.3.3"
+  resolved "https://registry.yarnpkg.com/@zerodev/passkey-validator/-/passkey-validator-5.3.3.tgz#e2b3be2c86e67654312da33ebf328fd0bc4bd37a"
+  integrity sha512-AsPXw4TWhoblKD4wryWU7CzI6SwJX9LuuCFZFsB4NLpu0CI36PzCYARcvYJpPHr1wra/0aBXtDuHV5AEU8p75Q==
   dependencies:
     "@noble/curves" "^1.3.0"
     "@simplewebauthn/browser" "^8.3.4"
 
-"@zerodev/permissions@5.2.10":
-  version "5.2.10"
-  resolved "https://registry.yarnpkg.com/@zerodev/permissions/-/permissions-5.2.10.tgz#2a6845dc47224d34b770a29daf04d7c03d1af349"
-  integrity sha512-jjuUUYaJZvBIlKchVDiP7QoGKH/XlLehh5d2mtcYrhKbH+FcfFDoeG0K6GVVFKf3zVBoMHNFMjfOquSzz6WkuQ==
+"@zerodev/permissions@5.3.1":
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/@zerodev/permissions/-/permissions-5.3.1.tgz#c16b2427a2b67c823c8f6ba6985a7695c84d3154"
+  integrity sha512-BETaBURUFMSniC8oIu64/puvta7oxmpH0ngW75RM9GShgZYMri1nx/UGYBq2IV3568kd5ReZ1m4GLDcdjFTtQQ==
   dependencies:
     "@simplewebauthn/browser" "^9.0.1"
     merkletreejs "^0.3.11"
 
-"@zerodev/sdk@5.2.19":
-  version "5.2.19"
-  resolved "https://registry.yarnpkg.com/@zerodev/sdk/-/sdk-5.2.19.tgz#9cb63a0f6966910d616c71656e1e45afb3fa5850"
-  integrity sha512-5+hwh5zAAWdcvhXuKiD+JxTJuH+h9b5rjLBOh6CbXujSFzDEXbF5KqyZGchCaU8mzhoDQt+X3IGZCXPJ/oOBlQ==
+"@zerodev/sdk@5.3.2":
+  version "5.3.2"
+  resolved "https://registry.yarnpkg.com/@zerodev/sdk/-/sdk-5.3.2.tgz#df9dc64683d8628a471bc931191d8eb9bd2f94b1"
+  integrity sha512-B4O9XChhxHvadst0MkbDzTq4weCJeV3Ru69Z4KM1cr4cI5B2pbqsCEE7THWQ3MAsuEt+IorgdTy7bFAS2HG8qA==
   dependencies:
     semver "^7.6.0"
 
@@ -2394,15 +2394,15 @@
   dependencies:
     semver "^7.6.0"
 
-"@zerodev/wallet@^0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@zerodev/wallet/-/wallet-0.0.10.tgz#05ae7a39f331caec64546021e217791046978859"
-  integrity sha512-VLZfYv2CnfZuv7zEZLENBqAoRyqwv2rrc9D4KmwaMi9iXrIFsmp66zKWRhG+oC29BbB1vJ9b3FignRPCu31N2w==
+"@zerodev/wallet@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@zerodev/wallet/-/wallet-0.1.0.tgz#75e4fe8b4475796bed26e7e9018827be34448d05"
+  integrity sha512-uK7ivTh7NyrITD08fIojyVPeeRKQLEfrub8vXE6nrgriqcn++ntEXs13vM8yNWs81czNQUKnJqONQQzHM+vwbQ==
   dependencies:
-    "@zerodev/ecdsa-validator" "5.2.3"
-    "@zerodev/passkey-validator" "5.2.8"
-    "@zerodev/permissions" "5.2.10"
-    "@zerodev/sdk" "5.2.19"
+    "@zerodev/ecdsa-validator" "5.3.1"
+    "@zerodev/passkey-validator" "5.3.3"
+    "@zerodev/permissions" "5.3.1"
+    "@zerodev/sdk" "5.3.2"
 
 abbrev@^2.0.0:
   version "2.0.0"

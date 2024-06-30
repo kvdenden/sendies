@@ -5,10 +5,14 @@ import useTransactionHistory, { type Transaction } from "@/hooks/useTransactionH
 import { formatUnits, getAddress } from "viem";
 import { Card, CardContent } from "./ui/card";
 import { cn } from "@/lib/utils";
-import useSearchUser from "@/hooks/useSearchUser";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { ArrowBigDownDash, ArrowBigLeftDash, ArrowBigRightDash, ArrowBigUpDash } from "lucide-react";
 import { shortAddress } from "@/web3/utils";
+import { useWatchContractEvent } from "wagmi";
+import { ghostVault } from "@/web3/contracts";
+import { Skeleton } from "./ui/skeleton";
+import DepositDrawer from "./DepositDrawer";
+import { Separator } from "@radix-ui/react-separator";
 
 function formatAmount(amount: bigint, decimals: number = 6) {
   const number = Number(formatUnits(amount, decimals));
@@ -73,11 +77,73 @@ function TransactionCard({ tx }: { tx: Transaction }) {
   );
 }
 
+function TransactionCardSkeleton() {
+  return (
+    <Card>
+      <CardContent className="py-4">
+        <div className="grid grid-cols-[1fr_auto] items-start gap-4">
+          <Skeleton className="w-40 h-6" />
+          <div className="flex flex-col gap-2">
+            <Skeleton className="w-16 h-6" />
+            <Skeleton className="w-16 h-4" />
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 export default function TransactionHistory() {
   const { address } = useSmartWallet();
-  const { data: history } = useTransactionHistory(address);
+  const { data: history, refetch } = useTransactionHistory(address);
 
-  if (!history) return null;
+  useWatchContractEvent({
+    ...ghostVault,
+    eventName: "Transfer",
+    args: {
+      to: address,
+    },
+    onLogs: () => {
+      refetch();
+    },
+    enabled: !!address,
+    pollingInterval: 10_000,
+  });
+
+  useWatchContractEvent({
+    ...ghostVault,
+    eventName: "Transfer",
+    args: {
+      from: address,
+    },
+    onLogs: () => refetch(),
+    enabled: !!address,
+    pollingInterval: 10_000,
+  });
+
+  if (!history) {
+    return (
+      <div className="flex flex-col gap-2">
+        <TransactionCardSkeleton />
+        <TransactionCardSkeleton />
+        <TransactionCardSkeleton />
+        <TransactionCardSkeleton />
+        <TransactionCardSkeleton />
+      </div>
+    );
+  }
+
+  if (history.length === 0) {
+    return (
+      <div className="flex flex-col gap-2">
+        <Card>
+          <CardContent className="py-4">
+            <p className="text-semibold text-muted-foreground">No transactions yet</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-2">
