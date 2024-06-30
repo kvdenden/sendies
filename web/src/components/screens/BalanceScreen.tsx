@@ -3,7 +3,7 @@
 import { formatEther, formatUnits } from "viem";
 import { useBalance, useWatchContractEvent } from "wagmi";
 
-import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import { ghostVault } from "@/web3/contracts";
 import useSmartWallet from "@/hooks/useSmartWallet";
@@ -52,12 +52,12 @@ export default function BalanceScreen() {
     pollingInterval: 10_000,
   });
 
-  if (!balance) return null;
-
   return (
     <div className="flex flex-col items-center w-full">
       <div className="py-16">
-        <h1 className="text-5xl font-bold tracking-tight">{formatBalance(balance)}</h1>
+        <h1 className="text-5xl font-bold tracking-tight">
+          {balance ? formatBalance(balance) : <Skeleton className="w-36 h-12" />}
+        </h1>
       </div>
       <div className="flex-1 grid grid-cols-2 gap-4 w-full max-w-[300px] ">
         <DepositDrawer />
