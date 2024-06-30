@@ -31,6 +31,8 @@ export async function POST(req: NextRequest) {
         {
           type: "email",
           address: email,
+          firstVerifiedAt: null,
+          latestVerifiedAt: null,
         },
       ],
       createEmbeddedWallet: true,

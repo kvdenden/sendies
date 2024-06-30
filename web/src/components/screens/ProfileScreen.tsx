@@ -41,7 +41,7 @@ export default function ProfileScreen() {
               <div className="flex justify-between gap-2">
                 <div>
                   <p className="text-xs text-muted-foreground">Smart wallet</p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-muted-foreground" title={smartWalletAddress}>
                     {smartWalletAddress && shortAddress(smartWalletAddress)}
                   </p>
                   <div className="flex gap-1 no-wrap">
@@ -58,7 +58,7 @@ export default function ProfileScreen() {
                 <Separator orientation="vertical" />
                 <div>
                   <p className="text-xs text-muted-foreground">Embedded wallet</p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-muted-foreground" title={embeddedWalletAddress}>
                     {embeddedWalletAddress && shortAddress(embeddedWalletAddress)}
                   </p>
                   <div className="flex gap-1 no-wrap">
