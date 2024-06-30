@@ -11,11 +11,14 @@ import { UserRound } from "lucide-react";
 import { shortAddress } from "@/web3/utils";
 import WithdrawDrawer from "../WithdrawDrawer";
 import DepositDrawer from "../DepositDrawer";
+import useCopyToClipboard from "@/hooks/useCopyToClipboard";
+import { Button } from "../ui/button";
 
 export default function ProfileScreen() {
-  const { user } = usePrivy();
+  const { user, exportWallet } = usePrivy();
   const { wallet: embeddedWallet } = useEmbeddedWallet();
   const { address: smartWalletAddress } = useSmartWallet();
+  const copyToClipBoard = useCopyToClipboard();
 
   // if (!user || !embeddedWallet || !smartWalletAddress) return null; // todo: show skeleton?
 
@@ -35,19 +38,47 @@ export default function ProfileScreen() {
             </Avatar>
             <div className="grid gap-2 w-full">
               <div className="text-sm font-medium text-primary">{email}</div>
-              <div className="flex justify-between gap-2 w-full">
+              <div className="flex justify-between gap-2">
                 <div>
-                  <p className="text-xs break-all text-muted-foreground">Smart wallet</p>
-                  <p className="text-xs break-all text-muted-foreground">
+                  <p className="text-xs text-muted-foreground">Smart wallet</p>
+                  <p className="text-xs text-muted-foreground">
                     {smartWalletAddress && shortAddress(smartWalletAddress)}
                   </p>
+                  <div className="flex gap-1 no-wrap">
+                    <Button
+                      variant="outline"
+                      size="xs"
+                      disabled={!smartWalletAddress}
+                      onClick={() => copyToClipBoard(smartWalletAddress)}
+                    >
+                      Copy
+                    </Button>
+                  </div>
                 </div>
                 <Separator orientation="vertical" />
                 <div>
-                  <p className="text-xs break-all text-muted-foreground">Embedded wallet</p>
-                  <p className="text-xs break-all text-muted-foreground">
+                  <p className="text-xs text-muted-foreground">Embedded wallet</p>
+                  <p className="text-xs text-muted-foreground">
                     {embeddedWalletAddress && shortAddress(embeddedWalletAddress)}
                   </p>
+                  <div className="flex gap-1 no-wrap">
+                    <Button
+                      variant="outline"
+                      size="xs"
+                      disabled={!embeddedWalletAddress}
+                      onClick={() => copyToClipBoard(embeddedWalletAddress)}
+                    >
+                      Copy
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="xs"
+                      disabled={!embeddedWalletAddress}
+                      onClick={() => exportWallet()}
+                    >
+                      Export
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -62,7 +93,7 @@ export default function ProfileScreen() {
         <p className="mb-2 text-sm text-muted-foreground">Withdraw money from your Sendies account</p>
         <WithdrawDrawer />
       </div>
-      <div className="text-center mt-auto w-full">
+      <div className="flex flex-col gap-2 mt-auto w-full">
         <LogoutButton />
       </div>
     </div>

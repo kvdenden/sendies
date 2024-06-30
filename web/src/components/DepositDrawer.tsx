@@ -12,19 +12,13 @@ import {
 } from "./ui/drawer";
 import useSmartWallet from "@/hooks/useSmartWallet";
 import chain from "@/web3/chain";
+import useCopyToClipboard from "@/hooks/useCopyToClipboard";
 
 export default function DepositDrawer() {
   const { address } = useSmartWallet();
   const [open, setOpen] = useState(false);
 
-  const copyToClipBoard = useCallback(async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      // setCopySuccess("Copied!");
-    } catch (err) {
-      // setCopySuccess("Failed to copy!");
-    }
-  }, []);
+  const copyToClipBoard = useCopyToClipboard();
 
   return (
     <Drawer open={open} onOpenChange={setOpen}>
@@ -58,7 +52,7 @@ export default function DepositDrawer() {
               </>
             </div>
 
-            <Button variant="secondary" className="w-full" onClick={() => copyToClipBoard(address ?? "")}>
+            <Button variant="secondary" className="w-full" disabled={!address} onClick={() => copyToClipBoard(address)}>
               Copy Address
             </Button>
           </div>
