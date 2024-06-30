@@ -11,6 +11,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import useWithdraw from "@/hooks/useWithdraw";
 import useSmartWallet from "@/hooks/useSmartWallet";
+import { toast } from "sonner";
 
 export const FormSchema = z.object({
   amount: z.coerce.number().positive(),
@@ -46,11 +47,13 @@ export default function WithdrawForm({ onWithdraw = () => {} }: WithdrawFormProp
 
         // 2. contract call
         const txHash = await withdraw(amount, receiver, address);
+        toast.success("Withdrawal successful!");
 
         // 3. callback
         onWithdraw(data, txHash);
       } catch (error) {
         console.error(error);
+        toast.error("Uh oh! Something went wrong.");
       } finally {
         setLoading(false);
       }

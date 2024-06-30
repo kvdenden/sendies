@@ -11,6 +11,7 @@ import SendDrawer from "../SendDrawer";
 import useGhostBalance from "@/hooks/useGhostBalance";
 import DepositDrawer from "../DepositDrawer";
 import WithdrawDrawer from "../WithdrawDrawer";
+import { toast } from "sonner";
 
 function formatBalance(balance: { value: bigint; decimals: number }) {
   const number = Number(formatUnits(balance.value, balance.decimals));
@@ -32,8 +33,12 @@ export default function BalanceScreen() {
     args: {
       to: address,
     },
-    onLogs: () => refresh(),
+    onLogs: () => {
+      toast.success("You received some monies! 🎉");
+      refresh();
+    },
     enabled: !!address,
+    pollingInterval: 10_000,
   });
 
   useWatchContractEvent({
@@ -44,6 +49,7 @@ export default function BalanceScreen() {
     },
     onLogs: () => refresh(),
     enabled: !!address,
+    pollingInterval: 10_000,
   });
 
   if (!balance) return null;
