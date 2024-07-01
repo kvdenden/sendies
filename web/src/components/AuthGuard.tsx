@@ -7,6 +7,8 @@ import useEmbeddedWallet from "@/hooks/useEmbeddedWallet";
 import useSmartWallet from "@/hooks/useSmartWallet";
 import SplashScreen from "./screens/SplashScreen";
 import LoadingScreen from "./screens/LoadingScreen";
+import { useEffect } from "react";
+import useSearchUser from "@/hooks/useSearchUser";
 
 function Guard() {
   const privy = usePrivy();
@@ -25,9 +27,30 @@ function Guard() {
 }
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
+  const { getAccessToken } = usePrivy();
+  const { guard, loading } = Guard();
   const smartWallet = useSmartWallet();
 
-  const { guard, loading } = Guard();
+  const profile = useSearchUser(smartWallet.address);
+
+  useEffect(() => {
+    if (profile.status !== "success") return;
+    if (profile.data) return; // already registered
+
+    // register profile
+    async function register() {
+      const accessToken = await getAccessToken();
+
+      await fetch("/api/profile", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }).then((res) => res.json());
+    }
+
+    register();
+  }, [getAccessToken, profile.status, profile.data]);
 
   if (loading) return <LoadingScreen />;
   if (guard) return <SplashScreen>{guard}</SplashScreen>;

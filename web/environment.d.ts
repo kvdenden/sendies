@@ -16,6 +16,7 @@ namespace NodeJS {
     NEXT_PUBLIC_USDC_ADDRESS: `0x${string}`;
     NEXT_PUBLIC_GHOSTVAULT_ADDRESS: `0x${string}`;
 
+    DATABASE_URL: string;
     RESEND_API_KEY: string;
   }
 }

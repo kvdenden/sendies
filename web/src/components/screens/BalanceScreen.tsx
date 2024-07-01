@@ -32,7 +32,7 @@ export default function BalanceScreen() {
     },
     onLogs: (logs) => {
       logs.forEach((log) => {
-        console.log("Transfer in logs", log);
+        // console.log("Transfer in logs", log);
         if (log.args.amount > 0) {
           const amount = formatBalance({ value: log.args.amount, decimals: 6 });
           toast.info(`Received ${amount}! 🎉`);

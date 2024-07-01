@@ -26,7 +26,11 @@ export function SmartWalletProvider({ children }: { children: React.ReactNode })
 
   const [value, setValue] = useState<SmartWalletContextType>({ ready: false });
   useEffect(() => {
-    setValue({ ready, address: account.address });
+    if (ready) {
+      setValue({ ready, address: account.address });
+    } else {
+      setValue({ ready });
+    }
   }, [ready, account.address]);
 
   return <SmartWalletContext.Provider value={value}>{children}</SmartWalletContext.Provider>;
