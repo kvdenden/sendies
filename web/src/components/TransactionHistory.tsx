@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { useMemo } from "react";
 import { ArrowBigDownDash, ArrowBigLeftDash, ArrowBigRightDash, ArrowBigUpDash } from "lucide-react";
 import { shortAddress } from "@/web3/utils";
-import { useWatchContractEvent } from "wagmi";
+import { useBlock, useWatchContractEvent } from "wagmi";
 import { ghostVault } from "@/web3/contracts";
 import { Skeleton } from "./ui/skeleton";
 import DepositDrawer from "./DepositDrawer";
@@ -45,6 +45,9 @@ function TransactionIcon({ tx }: { tx: Transaction; out: boolean }) {
 
 function TransactionCard({ tx }: { tx: Transaction }) {
   const { address } = useSmartWallet();
+  const { data: block } = useBlock({ blockNumber: BigInt(tx.blockNumber) });
+
+  const transactionDate = useMemo(() => block && new Date(Number(block.timestamp) * 1000), [block]);
 
   const otherAddress = useMemo(() => {
     if (tx.type !== "transfer") return;
@@ -62,9 +65,9 @@ function TransactionCard({ tx }: { tx: Transaction }) {
           <div className="flex gap-2">
             <TransactionIcon tx={tx} out={isOutgoing} />
             <div>
-              <p className="text-sm font-medium">{transactionLabel(tx, isOutgoing)}</p>
+              <p className="text-sm font-medium">{otherUser?.email ?? transactionLabel(tx, isOutgoing)} </p>
               <p className="text-xs text-muted-foreground">
-                {(otherUser && otherUser.email) || (otherAddress && shortAddress(otherAddress))}
+                {transactionDate?.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
               </p>
             </div>
           </div>
