@@ -25,9 +25,8 @@ function Guard() {
 }
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
-  const smartWallet = useSmartWallet();
-
   const { guard, loading } = Guard();
+  const smartWallet = useSmartWallet();
 
   if (loading) return <LoadingScreen />;
   if (guard) return <SplashScreen>{guard}</SplashScreen>;

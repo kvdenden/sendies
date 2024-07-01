@@ -13,6 +13,7 @@ import { ghostVault } from "@/web3/contracts";
 import { Skeleton } from "./ui/skeleton";
 import DepositDrawer from "./DepositDrawer";
 import { Separator } from "@radix-ui/react-separator";
+import useSearchUser from "@/hooks/useSearchUser";
 
 function formatAmount(amount: bigint, decimals: number = 6) {
   const number = Number(formatUnits(amount, decimals));
@@ -51,6 +52,8 @@ function TransactionCard({ tx }: { tx: Transaction }) {
     return getAddress(tx.from) === address ? getAddress(tx.to) : getAddress(tx.from);
   }, [tx]);
 
+  const { data: otherUser } = useSearchUser(otherAddress);
+
   const isOutgoing = tx.type === "withdraw" || (tx.type === "transfer" && getAddress(tx.from) === address);
   return (
     <Card>
@@ -58,10 +61,11 @@ function TransactionCard({ tx }: { tx: Transaction }) {
         <div className="grid grid-cols-[1fr_auto] items-center gap-4">
           <div className="flex gap-2">
             <TransactionIcon tx={tx} out={isOutgoing} />
-
             <div>
               <p className="text-sm font-medium">{transactionLabel(tx, isOutgoing)}</p>
-              <p className="text-xs text-muted-foreground">{otherAddress && shortAddress(otherAddress)}</p>
+              <p className="text-xs text-muted-foreground">
+                {(otherUser && otherUser.email) || (otherAddress && shortAddress(otherAddress))}
+              </p>
             </div>
           </div>
           <div className="text-right">

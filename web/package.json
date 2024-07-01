@@ -13,6 +13,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.6.0",
     "@neondatabase/serverless": "^0.9.4",
+    "@prisma/client": "^5.16.1",
     "@privy-io/react-auth": "^1.73.0",
     "@privy-io/server-auth": "^1.7.4",
     "@privy-io/wagmi": "^0.2.10",

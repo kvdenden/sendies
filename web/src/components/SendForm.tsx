@@ -54,10 +54,9 @@ export default function SendForm({ onSend = () => {} }: SendFormProps) {
         }).then((res) => res.json());
 
         const amount = parseUnits(data.amount.toFixed(2), 6);
-        const receiver = await getSmartAccountAddress(user.wallet.address);
 
         // 2. contract call
-        const txHash = await send(amount, receiver);
+        const txHash = await send(amount, user.address);
         toast.success("Money sent!");
 
         // 3. callback

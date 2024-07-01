@@ -4,13 +4,17 @@ export default function useSearchUser(address?: `0x${string}`) {
   const query = useQuery({
     queryKey: ["user", address],
     queryFn: async () => {
-      return fetch("/api/users/search", {
-        method: "POST",
-        body: JSON.stringify({ address }),
+      if (!address) return;
+      return fetch(`/api/profile?${new URLSearchParams({ address })}`, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-      }).then((res) => res.json());
+      }).then((res) => {
+        if (!res.ok) return;
+
+        return res.json();
+      });
     },
     enabled: !!address,
   });

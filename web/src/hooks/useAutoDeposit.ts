@@ -31,7 +31,6 @@ export default function useAutoDeposit(address?: `0x${string}`) {
 
   useEffect(() => {
     async function tryDeposit() {
-      console.log("try deposit", { address, allowance, balance });
       if (!address) return;
 
       if (allowance === undefined) return;
@@ -39,11 +38,9 @@ export default function useAutoDeposit(address?: `0x${string}`) {
 
       try {
         if (allowance < maxUint256) {
-          console.log("Approving ghost vault");
           await approve(ghostVault.address);
           await refetchAllowance();
         } else if (balance.value > 0) {
-          console.log("Depositing", balance.value);
           await deposit(balance.value, address);
           await refetchBalance();
           await refetchAllowance();
