@@ -7,8 +7,8 @@ export default function Home() {
       <div className="sticky top-0 bg-background pb-6">
         <BalanceScreen />
       </div>
-      <div className="overflow-hidden">
-        <h2 className="mb-4 text-2xl font-bold">Recent transactions</h2>
+      <div className="overflow-hidden pb-6">
+        <h2 className="mb-4 text-2xl font-bold tracking-tight">Recent transactions</h2>
         <TransactionHistory />
       </div>
     </div>
