@@ -25,21 +25,15 @@ type OnboardingScreenProps = {
 
 const SLIDES = [
   {
-    image: "/onboard.svg",
-    title: "Welcome to Sendies",
-    description: "We're excited to have you. Let's make sending money easy and fun!",
-  },
-  {
     image: "/send.svg",
-    title: "Send Money",
-    description:
-      "Transfer funds to your friends instantly. Just enter their email address, add the amount, and hit send. No fees, no fuss.",
+    title: "Welcome to Sendies",
+    description: "Ready to send cash to your friends? It's quick, easy, and fee-free. Let's get this show on the road!",
   },
   {
     image: "/deposit.svg",
-    title: "Deposit funds",
+    title: "Let's Get Rolling",
     description:
-      "Securely add money to your account. Choose your preferred method and enter the amount to get started.",
+      "Load up your account with funds to kick things off. It's secure, super easy, and you'll be ready to roll in no time!",
   },
 ];
 
@@ -70,7 +64,7 @@ export default function OnboardingScreen({ onComplete }: OnboardingScreenProps) 
           {SLIDES.map((slide, i) => (
             <CarouselItem key={i}>
               <OnboardingSlide image={slide.image} title={slide.title}>
-                <div className="flex flex-col grow text-center text-muted-foreground">
+                <div className="flex flex-col text-center text-muted-foreground">
                   <p className="text-gray-700 mb-4">{slide.description}</p>
                   {i + 1 === count && (
                     <div className="text-center">
@@ -85,7 +79,7 @@ export default function OnboardingScreen({ onComplete }: OnboardingScreenProps) 
           ))}
         </CarouselContent>
       </Carousel>
-      <div className="mt-auto">
+      <div className="mt-6">
         <div className="flex justify-center p-6">
           {Array.from({ length: count }, (_, i) => (
             <Button
@@ -100,6 +94,11 @@ export default function OnboardingScreen({ onComplete }: OnboardingScreenProps) 
             />
           ))}
         </div>
+        <p className="text-gray-400 text-xs text-center">
+          <a href="https://storyset.com" target="_blank" rel="noopener noreferrer">
+            Illustrations by Storyset
+          </a>
+        </p>
       </div>
     </div>
   );
