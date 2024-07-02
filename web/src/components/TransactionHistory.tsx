@@ -61,17 +61,15 @@ function TransactionCard({ tx }: { tx: Transaction }) {
   return (
     <Card>
       <CardContent className="py-4">
-        <div className="grid grid-cols-[1fr_auto] items-center gap-4">
-          <div className="flex gap-2">
-            <TransactionIcon tx={tx} out={isOutgoing} />
-            <div>
-              <p className="text-sm font-medium">{otherUser?.email ?? transactionLabel(tx, isOutgoing)} </p>
-              <p className="text-xs text-muted-foreground">
-                {transactionDate?.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
-              </p>
-            </div>
+        <div className="grid grid-cols-[auto_1fr_auto] items-center gap-4">
+          <TransactionIcon tx={tx} out={isOutgoing} />
+          <div className="min-w-0">
+            <p className="text-sm font-medium truncate">{otherUser?.email ?? transactionLabel(tx, isOutgoing)} </p>
+            <p className="text-xs text-muted-foreground">
+              {transactionDate?.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
+            </p>
           </div>
-          <div className="text-right">
+          <div className="text-right ml-auto">
             <p className={cn("text-lg font-bold", isOutgoing ? "text-red-500" : "text-green-500")}>
               {isOutgoing ? "-" : "+"}
               {formatAmount(tx.amount)}
