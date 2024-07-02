@@ -25,15 +25,14 @@ type OnboardingScreenProps = {
 
 const SLIDES = [
   {
-    image: "/send.svg",
+    image: "/connect-alt.svg",
     title: "Welcome to Sendies",
-    description: "Ready to send cash to your friends? It's quick, easy, and fee-free. Let's get this show on the road!",
+    description: "Ready to send cash to your friends, anywhere in the world? It's quick, easy, and fee-free.",
   },
   {
-    image: "/deposit.svg",
+    image: "/deposit-alt.svg",
     title: "Let's Get Rolling",
-    description:
-      "Load up your account with funds to kick things off. It's secure, super easy, and you'll be ready to roll in no time!",
+    description: "Add funds to your account and start sending money worldwide with ease.",
   },
 ];
 
@@ -41,8 +40,6 @@ export default function OnboardingScreen({ onComplete }: OnboardingScreenProps) 
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
-
-  console.log("current", current);
 
   useEffect(() => {
     if (!api) {
@@ -94,6 +91,8 @@ export default function OnboardingScreen({ onComplete }: OnboardingScreenProps) 
             />
           ))}
         </div>
+      </div>
+      <div className="mt-auto">
         <p className="text-gray-400 text-xs text-center">
           <a href="https://storyset.com" target="_blank" rel="noopener noreferrer">
             Illustrations by Storyset
