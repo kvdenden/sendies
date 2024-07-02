@@ -9,6 +9,7 @@ import BottomNav from "@/components/BottomNav";
 import AutoDeposit from "@/components/AutoDeposit";
 import { Toaster } from "@/components/ui/sonner";
 import TestnetBanner from "@/components/TestnetBanner";
+import OnboardingGuard from "@/components/OnboardingGuard";
 
 const fontSans = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -29,18 +30,20 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="light" disableTransitionOnChange>
           <Web3Provider>
             <AuthGuard>
-              <div className="flex flex-col h-full">
-                <main className="h-[100dvh] overflow-auto">
-                  <div className="absolute top-0 w-full z-10">
-                    <TestnetBanner />
+              <OnboardingGuard>
+                <div className="flex flex-col h-full">
+                  <main className="h-[100dvh] overflow-auto">
+                    <div className="absolute top-0 w-full z-10">
+                      <TestnetBanner />
+                    </div>
+                    <div className="container h-full mx-auto pb-4">{children}</div>
+                  </main>
+                  <div className="sticky bottom-0 mt-auto">
+                    <BottomNav />
                   </div>
-                  <div className="container h-full mx-auto pb-4">{children}</div>
-                </main>
-                <div className="sticky bottom-0 mt-auto">
-                  <BottomNav />
+                  <AutoDeposit />
                 </div>
-                <AutoDeposit />
-              </div>
+              </OnboardingGuard>
             </AuthGuard>
           </Web3Provider>
           <Toaster position="top-center" />
