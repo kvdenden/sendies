@@ -49,7 +49,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
       }).then((res) => res.json());
     }
 
-    register();
+    register().then(() => profile.refetch());
   }, [getAccessToken, profile.status, profile.data]);
 
   if (loading) return <LoadingScreen />;

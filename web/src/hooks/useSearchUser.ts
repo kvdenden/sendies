@@ -17,6 +17,7 @@ export default function useSearchUser(address?: `0x${string}`) {
       });
     },
     enabled: !!address,
+    staleTime: Infinity,
   });
   return query;
 }

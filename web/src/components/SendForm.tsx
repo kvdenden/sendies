@@ -42,8 +42,10 @@ export default function SendForm({ onSend = () => {} }: SendFormProps) {
       try {
         setLoading(true);
 
-        const accessToken = await getAccessToken();
+        const amount = parseUnits(data.amount.toFixed(2), 6);
+
         // 1. get wallet address for email
+        const accessToken = await getAccessToken();
         const { user } = await fetch("/api/users", {
           method: "POST",
           headers: {
@@ -53,14 +55,15 @@ export default function SendForm({ onSend = () => {} }: SendFormProps) {
           body: JSON.stringify({ email: data.email }),
         }).then((res) => res.json());
 
-        const amount = parseUnits(data.amount.toFixed(2), 6);
-
         // 2. contract call
-        const txHash = await send(amount, user.address);
-        toast.success("Money sent!");
+        toast.promise(send(amount, user.address), {
+          loading: "Sending money...",
+          success: "Money sent!",
+          error: "Uh oh! Something went wrong.",
+        });
 
         // 3. callback
-        onSend(data, txHash);
+        onSend(data);
       } catch (error) {
         console.error(error);
         toast.error("Uh oh! Something went wrong.");

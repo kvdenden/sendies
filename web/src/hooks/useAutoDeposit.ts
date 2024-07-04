@@ -6,25 +6,31 @@ import useDeposit from "./useDeposit";
 import useApprove from "./useApprove";
 
 export default function useAutoDeposit(address?: `0x${string}`) {
-  const { data: balance, refetch: refetchBalance } = useBalance({ address, token: usdc.address });
+  const { data: balance, refetch: refetchBalance } = useBalance({
+    address,
+    token: usdc.address,
+    query: {
+      refetchInterval: 10_000,
+    },
+  });
   const { data: allowance, refetch: refetchAllowance } = useReadContract({
     ...usdc,
     functionName: "allowance",
     args: [address ?? zeroAddress, ghostVault.address],
   });
 
-  useWatchContractEvent({
-    ...usdc,
-    eventName: "Transfer",
-    args: {
-      to: address,
-    },
-    onLogs: () => {
-      refetchBalance();
-    },
-    enabled: !!address,
-    pollingInterval: 10_000,
-  });
+  // useWatchContractEvent({
+  //   ...usdc,
+  //   eventName: "Transfer",
+  //   args: {
+  //     to: address,
+  //   },
+  //   onLogs: () => {
+  //     refetchBalance();
+  //   },
+  //   enabled: !!address,
+  //   pollingInterval: 10_000,
+  // });
 
   const approve = useApprove();
   const deposit = useDeposit();
@@ -39,12 +45,12 @@ export default function useAutoDeposit(address?: `0x${string}`) {
       try {
         if (allowance < maxUint256) {
           await approve(ghostVault.address);
-          await refetchAllowance();
-        } else if (balance.value > 0) {
-          await deposit(balance.value, address);
-          await refetchBalance();
-          await refetchAllowance();
         }
+        if (balance.value > 0) {
+          await deposit(balance.value);
+        }
+        await refetchBalance();
+        await refetchAllowance();
       } catch (error) {
         console.error("Auto deposit failed", error);
       }

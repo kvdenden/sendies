@@ -39,18 +39,20 @@ export default function WithdrawForm({ onWithdraw = () => {} }: WithdrawFormProp
   const handleSubmit = useCallback(
     async (data: z.infer<typeof FormSchema>) => {
       if (!address) return;
+
       try {
         setLoading(true);
-
         const amount = parseUnits(data.amount.toFixed(2), 6);
         const receiver = getAddress(data.receiver);
 
         // 2. contract call
-        const txHash = await withdraw(amount, receiver, address);
-        toast.success("Withdrawal successful!");
+        toast.promise(withdraw(amount, receiver), {
+          loading: "Withdrawing...",
+          success: "Withdrawal successful!",
+          error: "Uh oh! Something went wrong.",
+        });
 
-        // 3. callback
-        onWithdraw(data, txHash);
+        onWithdraw(data);
       } catch (error) {
         console.error(error);
         toast.error("Uh oh! Something went wrong.");

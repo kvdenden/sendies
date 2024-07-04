@@ -5,15 +5,12 @@ import useTransactionHistory, { type Transaction } from "@/hooks/useTransactionH
 import { formatUnits, getAddress } from "viem";
 import { Card, CardContent } from "./ui/card";
 import { cn } from "@/lib/utils";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { ArrowBigDownDash, ArrowBigLeftDash, ArrowBigRightDash, ArrowBigUpDash } from "lucide-react";
-import { shortAddress } from "@/web3/utils";
 import { useBlock, useWatchContractEvent } from "wagmi";
-import { ghostVault } from "@/web3/contracts";
 import { Skeleton } from "./ui/skeleton";
-import DepositDrawer from "./DepositDrawer";
-import { Separator } from "@radix-ui/react-separator";
 import useSearchUser from "@/hooks/useSearchUser";
+import useGhostBalance from "@/hooks/useGhostBalance";
 
 function formatAmount(amount: bigint, decimals: number = 6) {
   const number = Number(formatUnits(amount, decimals));
@@ -45,7 +42,7 @@ function TransactionIcon({ tx }: { tx: Transaction; out: boolean }) {
 
 function TransactionCard({ tx }: { tx: Transaction }) {
   const { address } = useSmartWallet();
-  const { data: block } = useBlock({ blockNumber: BigInt(tx.blockNumber) });
+  const { data: block } = useBlock({ blockNumber: BigInt(tx.blockNumber), query: { staleTime: Infinity } });
 
   const transactionDate = useMemo(() => block && new Date(Number(block.timestamp) * 1000), [block]);
 
@@ -100,33 +97,13 @@ function TransactionCardSkeleton() {
 
 export default function TransactionHistory() {
   const { address } = useSmartWallet();
+
+  const { balance, dirty } = useGhostBalance(address);
   const { data: history, refetch } = useTransactionHistory(address);
 
-  useWatchContractEvent({
-    ...ghostVault,
-    eventName: "Transfer",
-    args: {
-      to: address,
-    },
-    onLogs: () => {
-      refetch();
-    },
-    strict: true,
-    enabled: !!address,
-    pollingInterval: 10_000,
-  });
-
-  useWatchContractEvent({
-    ...ghostVault,
-    eventName: "Transfer",
-    args: {
-      from: address,
-    },
-    onLogs: () => refetch(),
-    strict: true,
-    enabled: !!address,
-    pollingInterval: 10_000,
-  });
+  useEffect(() => {
+    if (balance && !dirty) refetch();
+  }, [balance, dirty]);
 
   if (!history) {
     return (

@@ -11,14 +11,11 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "./ui/drawer";
-import useGhostBalance from "@/hooks/useGhostBalance";
 
 export default function WithdrawDrawer() {
   const [open, setOpen] = useState(false);
-  const { refresh } = useGhostBalance();
 
-  const handleWithdraw = useCallback(async (data: any, txHash: `0x${string}`) => {
-    await refresh();
+  const handleWithdraw = useCallback(async (data: any) => {
     setOpen(false);
   }, []);
 
