@@ -8,7 +8,6 @@ export type Transaction = (
   hash: `0x${string}`;
 };
 
-import { useEffect } from "react";
 import orderBy from "lodash/orderBy";
 import { AssetTransfersCategory, AssetTransfersResult, SortingOrder } from "alchemy-sdk";
 
@@ -69,6 +68,7 @@ export default function useTransactionHistory(address?: `0x${string}`) {
     queryKey: ["transactionHistory", address],
     queryFn: async () => {
       if (!address) return [];
+      console.log("getAssetTransfers", address);
       return getAssetTransfers(address);
     },
     enabled: !!address,

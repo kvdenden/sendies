@@ -1,17 +1,21 @@
 "use client";
 
-import { formatEther, formatUnits } from "viem";
-import { useBalance, useWatchContractEvent } from "wagmi";
+import { formatUnits } from "viem";
+import { useWatchContractEvent } from "wagmi";
+import { toast } from "sonner";
 
 import { Skeleton } from "@/components/ui/skeleton";
 
 import { ghostVault } from "@/web3/contracts";
 import useSmartWallet from "@/hooks/useSmartWallet";
-import SendDrawer from "../SendDrawer";
 import useGhostBalance from "@/hooks/useGhostBalance";
+import SendDrawer from "../SendDrawer";
 import DepositDrawer from "../DepositDrawer";
 import WithdrawDrawer from "../WithdrawDrawer";
-import { toast } from "sonner";
+
+import { useEffect } from "react";
+import { cn } from "@/lib/utils";
+import { LoadingSpinner } from "../ui/loading-spinner";
 
 function formatBalance(balance: { value: bigint; decimals: number }) {
   const number = Number(formatUnits(balance.value, balance.decimals));
@@ -22,54 +26,20 @@ function formatBalance(balance: { value: bigint; decimals: number }) {
 export default function BalanceScreen() {
   const { address } = useSmartWallet();
 
-  const { balance, refresh } = useGhostBalance(address);
+  const { balance, prevBalance, dirty } = useGhostBalance(address);
 
-  useWatchContractEvent({
-    ...ghostVault,
-    eventName: "Transfer",
-    args: {
-      to: address,
-    },
-    onLogs: (logs) => {
-      logs.forEach((log) => {
-        // console.log("Transfer in logs", log);
-        if (log.args.amount > 0) {
-          const amount = formatBalance({ value: log.args.amount, decimals: 6 });
-          toast.info(`Received ${amount}! 🎉`);
-        }
-      });
-      refresh();
-    },
-    strict: true,
-    enabled: !!address,
-    pollingInterval: 10_000,
-  });
-
-  useWatchContractEvent({
-    ...ghostVault,
-    eventName: "Transfer",
-    args: {
-      from: address,
-    },
-    onLogs: (logs) => {
-      // logs.forEach((log) => {
-      //   console.log("Transfer in logs", log);
-      //   if (log.args.amount > 0) {
-      //     const amount = formatBalance({ value: log.args.amount, decimals: 6 });
-      //     toast.info(`Sent ${amount}!`);
-      //   }
-      // });
-      refresh();
-    },
-    strict: true,
-    enabled: !!address,
-    pollingInterval: 10_000,
-  });
+  useEffect(() => {
+    if (!balance || !prevBalance) return;
+    if (balance.value > prevBalance.value) {
+      const amount = formatBalance({ value: balance.value - prevBalance.value, decimals: balance.decimals });
+      toast.info(`Received ${amount}! 🎉`);
+    }
+  }, [balance, prevBalance]);
 
   return (
     <div className="flex flex-col items-center w-full">
       <div className="py-16">
-        <h1 className="text-5xl font-bold tracking-tight">
+        <h1 className={cn("text-5xl font-bold tracking-tight", dirty && "text-gray-600")}>
           {balance ? formatBalance(balance) : <Skeleton className="w-36 h-12" />}
         </h1>
       </div>
